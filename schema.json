@@ -1,0 +1,92 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "ElmDocumentBuilder",
+    "description": "This is the schema for array of Question Records",
+    "type": "array",
+    "items": {
+        "description": "This is the schema for the Question Record",
+        "type": "object",
+        "properties": {
+            "uid": {
+                "description": "The unique identifier for a question",
+                "type": "integer"
+            },
+            "title": {
+                "description": "the question title",
+                "type": "string"
+            },
+            "text": {
+                "description": "Text related to the Question like the description.",
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "type": {
+                "description": "the question type from list: [\"checkbox\", \"radio\", \"dropdown\", \"markdown\", \"editbox\", \"textbox\", \"textinput\", \"textarea\", \"table\", \"button\", \"subheading\", \"notaquestion\"]",
+                "type": "string"
+            },
+            "saveAction": {
+                "description": "unused: the question save action from list: []",
+                "type": "string"
+            },
+            "options": {
+                "description": "Array of options for certain questions like radio buttons.",
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "actions": {
+                "description": "",
+                "type": "array",
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "action": {
+                                "description": "String from list [\"addquestion\",\"removequestion\", \"addquestionbelow\",\"replacealloptions\"]",
+                                "type": "string"
+                            },
+                            "number": {
+                                "description": "Integer of the Question to Act on",
+                                "type": "integer"
+                            },
+                            "below" : {
+                                "description": "Integer of the Question to place below on",
+                                "type": "integer" 
+                            },
+                            "message": {
+                                "description": "message",
+                                "type": "string"
+                            },
+                            "options": {
+                                "description": "List of options",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "required": [
+                            "action"
+                        ]
+                    }
+                }
+            },
+            "childQuestions": {
+                "description": "removes this question when question record is removed (non-recursive)",
+                "type": "array",
+                "items": {
+                    "type": "integer"
+                }
+            }
+        },
+        "required": [
+            "id",
+            "title",
+            "type"
+        ]
+    }
+}
