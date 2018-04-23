@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['rabbit.editor@yahoo.com']
 
   spec.summary       = 'Elm Document Builder'
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/rebelwarrior/elm-doc-builder"
   spec.license       = 'Apache-2.0'
 
   spec.files         = `git ls-files -z`.split("\x0").select { |f| f.match(/^(assets|_layouts|_includes|LICENSE|README)/i) }
