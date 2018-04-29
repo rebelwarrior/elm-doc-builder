@@ -38,6 +38,3 @@ viewAlertMsg messageList =
         |> div [ class "alerts" ]
 
 
-
--- For using the special x character:
--- https://stackoverflow.com/questions/33971362/how-can-i-get-special-characters-using-elm-html-module

@@ -4,6 +4,7 @@ Problem to solve:
 As a User I want to easily modify a set of questions that the program uses to produce a document. 
 
 Approach to solve it:
+Make the program's logic and content be on a separate JSON file that the Elm program slurps at startup and can interpret, including its logic. 
 
 ## Schema
 The program expects two json files: one with the questions in page (simple array of interger) and the other with a list of all the questions. 
@@ -49,12 +50,12 @@ Each question may have "Action" objects:
 
 Depending which action the "optional" parameters are required or ignored. 
 
-| action | required |
+| action | required | what it does |
 | --- | --- |
-| "addquestion"       | "number"
-| "removequestion"    | "number"
-| "addquestionbelow"  | "number", "below" 
-| "replacealloptions" | "number", "options"
+| "addquestion"       | "number"            | adds question (number) at bottom of page
+| "removequestion"    | "number"            | removes question from page
+| "addquestionbelow"  | "number", "below"   | adds question (number) below question (below)
+| "replacealloptions" | "number", "options" | replaces all the options of a question (number)
 
 
 
@@ -79,9 +80,10 @@ Table should be a collection of Text Input Quesionts...
 Also where is the readme for the quesitons?
 
 TODO:
-1. Fully implement jekyll theme pattern
-2. Fix fade easing of alerts without using js. (if possible)
-3. Implement Heading (reimplementation of Subheading)
-4. Implement Table
-5. Implement TextInput (presently incomplete)
-6. Implement NotAQuestion (also rename) 
+1. [] Fully implement jekyll theme pattern
+2. [] Fix fade easing of alerts without using js. (if possible)
+3. [] Implement Heading (reimplementation of Subheading)
+4. [] Implement Table
+5. [] Implement TextInput (presently incomplete)
+6. [] Implement NotAQuestion (also rename) 
+7. [] Verify Accessibility tags
