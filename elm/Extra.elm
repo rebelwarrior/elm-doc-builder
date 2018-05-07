@@ -1,5 +1,10 @@
 module Extra exposing (..)
 
+firstListOfNestedList : List (List a) -> List a
+firstListOfNestedList list =
+    case list of
+        hd :: tl -> hd
+        []       -> []
 
 -- Decided against the below function because it requires Array and Model this 
 -- file should have no external dependencies. 

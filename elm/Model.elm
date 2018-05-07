@@ -42,12 +42,13 @@ type QuestionAction
     | ReplaceAllOptions Int (List String) -- used internally by EditBox but open to external
     | AddAlert String 
     | ClearAlert String 
-    | BuildDoc -- Finishing action to print
+    | Print -- Finishing action to print
     | NoAction 
+    | Error -- Not Defined used to allow compile of CatchAll. 
 
 
 type SaveAction 
-    = SaveText -- Do Not Implement for "MVP" of Save
+    = SaveText 
     | SaveAll 
     | NoSave -- None and NoSave are the same use one NoSave is more semantic
     | None 
@@ -67,7 +68,7 @@ initialModel : Model
 initialModel = 
   { alertMessages = [ "Error: bad robot", "Error: Really Bad Robot"]
   , buildDoc = False 
-  , questionsInPage = [110, 100, 1001, 1002, 301]  -- this will have to be expanded w/ the concept of pages later
+  , questionsInPage = [110, 100, 1001, 1002, 301, 200]  -- this will have to be expanded w/ the concept of pages later
   , questionList =
     [ --QuestionRecord 1001 "TextInput Q" ["go on living", "iZombie ok", "fine"] TextInput None [] [] []
     --, QuestionRecord 1002 "EditBox" [] EditBox NoSave ["This \n are \n monsters."] [] []
@@ -103,9 +104,10 @@ initialModel =
         , "Ragged Bow (near, 2 weight) and Bundle Of Arrows (3 ammo, 1 weight)"
         , "3 Throwing Daggers (thrown, near, 0 weight)"
         ] [] [] 
-    , QuestionRecord 110 "EditBox test" ["desc for EditBox", "placeholder :) for Text Input should be in options"] EditBox None ["Stuff that Goes Inside.", "new P"] [] [] 
+    , QuestionRecord 110 "EditBox test" ["desc for EditBox", "placeholder :) for Text Input should be in options"] EditBox SaveText ["Stuff that Goes Inside.", "new P"] [] [] 
     , QuestionRecord 113 "Radio" ["desc"] RadioButton None ["banana", "milkshake", "float"] [[AddQuestion 102],[NoAction], [RmQuestion 102]] [] 
     , QuestionRecord 114 "Check" ["desc"] CheckBox None ["banana1", "milkshake1", "float1"] [[AddQuestion 102],[RmQuestion 102]] [] 
+    , QuestionRecord 200 "Print Button" ["click to print"] Button SaveAll [] [[Print]] []
     ]
 
   }

@@ -86,6 +86,10 @@ updateWithAction msg model =
                   {q | options = optionsList } 
                 else q)
         }
+      Model.Print -> 
+        { model | buildDoc = 
+          not model.buildDoc
+        }
       _ -> 
         { model | alertMessages =  
           model.alertMessages

@@ -13,6 +13,7 @@ import CheckBoxBuilder exposing (buildCheckboxQuestion)
 import EditBoxBuilder exposing (buildEditBoxQuestion, buildTextAreaQuestion)
 -- import ImageBuilder exposing (buildImage)
 import AlertBuilder exposing (buildAlerts)
+import ButtonBuilder exposing (buildButton)
 import CssTranslation exposing (css)
 
 view : Model.Model -> Html (List Model.QuestionAction)
@@ -96,8 +97,8 @@ viewQuestionItem question =
         -- Model.TextInput ->
         --     buildTextInputQuestion question
 
-        -- Model.Button ->
-        --     buildButton question
+        Model.Button ->
+            buildButton question
 
         Model.SubHeading ->
             h2 [ class "sub-heading" ] [ text question.title ]
@@ -129,8 +130,11 @@ viewSaveQuestion question =
             div [] []
         Model.SaveAll -> 
             (viewQuestionItem question)
-        -- Model.SaveText -> 
-        --     div [] (buildContentParrographs question.options)
+        Model.SaveText -> 
+            div [] 
+                [ h4 [] [ text question.title ]
+                , div [] (buildContentParrographs question.options)
+                ]         
         _ -> 
             div [] []
       
