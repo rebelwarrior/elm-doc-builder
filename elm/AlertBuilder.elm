@@ -36,5 +36,3 @@ viewAlertMsg messageList =
     messageList
         |> List.map displayMessage
         |> div [ class "alerts" ]
-
-

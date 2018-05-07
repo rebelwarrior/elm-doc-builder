@@ -107,4 +107,4 @@ viewQuestionItem questionRecord =
         --     buildImage questionRecord 
 
         _ ->
-            div [] [ text "No QuestionType Error" ]
+            div [] [ text "No QuestionType Error" ] -- This should be an alert

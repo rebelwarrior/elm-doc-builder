@@ -1,5 +1,7 @@
 module TableBuilder exposing (..)
 
+-- This should reaquire TextInput, and just call that a number of times. 
+
 -- Not implemented
 
 import Html

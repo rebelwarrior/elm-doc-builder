@@ -8480,7 +8480,7 @@ var _evancz$elm_markdown$Markdown$Options = F4(
 		return {githubFlavored: a, defaultHighlighting: b, sanitize: c, smartypants: d};
 	});
 
-var _user$project$CssTranslation$css = {flash: 'alert alert-danger alert-dismissible fade show', button_outline: '', grid: 'container', subgrid: 'row justify-content-start', main_section: 'question-section', subgrid_sidebar: 'col-sm', large_column: 'col-lg', form: 'col-lg-auto', form_check: 'form-check', form_check_input: 'form-check-input', form_check_label: 'form-check-label', select: 'form-control', question: 'form-group', markdown_class: 'text-md-left', radiobuttons: '', custom_radio: 'custom-control custom-radio', custom_radio_input: 'custom-control-input', radio_label: 'custom-control-label', list_radio: 'radio', fieldset_inputs: '', unstiled_list: '', legend: '', header: 'header', form_control: '', done_button: 'Done', edit_button: 'Edit', edit_button_class: 'btn btn-link btn-sm edit'};
+var _user$project$CssTranslation$css = {flash: 'alert alert-danger alert-dismissible fade show', close: 'close', button_outline: '', grid: 'container', subgrid: 'row justify-content-start', main_section: 'question-section', subgrid_sidebar: 'col-sm', large_column: 'col-lg', form: 'col-lg-auto', form_check: 'form-check', form_check_input: 'form-check-input', form_check_label: 'form-check-label', select: 'form-control', question: 'form-group', markdown_class: 'text-md-left', radiobuttons: '', custom_radio: 'custom-control custom-radio', custom_radio_input: 'custom-control-input', radio_label: 'custom-control-label', list_radio: 'radio', fieldset_inputs: '', unstiled_list: '', legend: '', header: 'header', form_control: '', done_button: 'Done', edit_button: 'Edit', edit_button_class: 'btn btn-link btn-sm edit'};
 
 var _user$project$Model$thiefMarkdownText = '\n    Quiet as as ghosts they prowl, maybe working for a living is not for them, maybe it is proving their worth, or maybe this is all they know how to do. Why toil in life when so many good things are just ripe for the taking?\n    Caravans full of riches travel your land; maybe they should pay a toll for that, and why not you to collect it?\n    _\"All adventures are thieves... just some are honest about it.\" – Pathfinder_\n\n    ';
 var _user$project$Model$rangerMarkdownText = '\n    The trackers, scouts and hunters of the Seven Kingdoms, they can mostly be found on the fringes of civilization or in-between places. They have a connection with the land, few in civilized places do. \n    _\"Hear me. Never flee from a Ranger. Better to face them in battle immediately than to have them hunt you down...\"  - Stalwart Warrior_\n    ';
@@ -8508,7 +8508,7 @@ var _user$project$Model$AnswersRecord = F2(
 	function (a, b) {
 		return {questionID: a, text: b};
 	});
-var _user$project$Model$Error = {ctor: 'Error'};
+var _user$project$Model$ErrorType = {ctor: 'ErrorType'};
 var _user$project$Model$NotAQuestion = {ctor: 'NotAQuestion'};
 var _user$project$Model$Image = {ctor: 'Image'};
 var _user$project$Model$TextInput = {ctor: 'TextInput'};
@@ -8530,9 +8530,9 @@ var _user$project$Model$ClearAlert = function (a) {
 var _user$project$Model$AddAlert = function (a) {
 	return {ctor: 'AddAlert', _0: a};
 };
-var _user$project$Model$ReplaceText = F2(
+var _user$project$Model$ReplaceAllOptions = F2(
 	function (a, b) {
-		return {ctor: 'ReplaceText', _0: a, _1: b};
+		return {ctor: 'ReplaceAllOptions', _0: a, _1: b};
 	});
 var _user$project$Model$StopEdit = function (a) {
 	return {ctor: 'StopEdit', _0: a};
@@ -9302,7 +9302,7 @@ var _user$project$AlertBuilder$viewAlertMsg = function (messageList) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('close'),
+							_0: _elm_lang$html$Html_Attributes$class(_user$project$CssTranslation$css.close),
 							_1: {
 								ctor: '::',
 								_0: A2(_elm_lang$html$Html_Attributes$attribute, 'type', 'button'),
@@ -9781,6 +9781,28 @@ var _user$project$DropDownBuilder$buildDropDownQuestion = function (question) {
 		});
 };
 
+var _user$project$Extra$valueOrder = F2(
+	function (value, options) {
+		return A2(
+			_elm_lang$core$List$map,
+			function (_p0) {
+				var _p1 = _p0;
+				return _p1._0;
+			},
+			A2(
+				_elm_lang$core$List$filter,
+				function (_p2) {
+					var _p3 = _p2;
+					return A2(_elm_lang$core$String$startsWith, value, _p3._1);
+				},
+				A2(
+					_elm_lang$core$List$indexedMap,
+					F2(
+						function (v0, v1) {
+							return {ctor: '_Tuple2', _0: v0, _1: v1};
+						}),
+					options)));
+	});
 var _user$project$Extra$takeFirstText = function (listOfStrings) {
 	return A2(
 		_elm_lang$core$Maybe$withDefault,
@@ -9794,14 +9816,14 @@ var _user$project$Extra$appendNumberToBeginningOfString = F2(
 				_elm_lang$core$String$left,
 				8,
 				_elm_lang$core$String$trim(string)));
-		var _p0 = maybeA;
-		if (_p0.ctor === 'Nothing') {
+		var _p4 = maybeA;
+		if (_p4.ctor === 'Nothing') {
 			return beginningOfString;
 		} else {
 			return A2(
 				_elm_lang$core$Basics_ops['++'],
 				beginningOfString,
-				_elm_lang$core$Basics$toString(_p0._0));
+				_elm_lang$core$Basics$toString(_p4._0));
 		}
 	});
 var _user$project$Extra$optionNameToOrdinal = F2(
@@ -9809,15 +9831,15 @@ var _user$project$Extra$optionNameToOrdinal = F2(
 		return _elm_lang$core$List$head(
 			A2(
 				_elm_lang$core$List$map,
-				function (_p1) {
-					var _p2 = _p1;
-					return _p2._0;
+				function (_p5) {
+					var _p6 = _p5;
+					return _p6._0;
 				},
 				A2(
 					_elm_lang$core$List$filter,
-					function (_p3) {
-						var _p4 = _p3;
-						return A2(_elm_lang$core$String$startsWith, _p4._1, optionName);
+					function (_p7) {
+						var _p8 = _p7;
+						return A2(_elm_lang$core$String$startsWith, _p8._1, optionName);
 					},
 					A2(
 						_elm_lang$core$List$indexedMap,
@@ -9877,7 +9899,14 @@ var _user$project$EditBoxBuilder$buildTextAreaQuestion = F2(
 		};
 		var onInputFn = function (string) {
 			return _elm_lang$core$List$singleton(
-				A2(_user$project$Model$ReplaceText, question.uuid, string));
+				A2(
+					_user$project$Model$ReplaceAllOptions,
+					question.uuid,
+					{
+						ctor: '::',
+						_0: string,
+						_1: {ctor: '[]'}
+					}));
 		};
 		return A2(
 			_elm_lang$html$Html$div,
@@ -10141,8 +10170,8 @@ var _user$project$JsonImporter$questionTypeDecoder = function (string) {
 	}
 };
 var _user$project$JsonImporter$decodeAction = function () {
-	var toQuestionAction = F4(
-		function (action, number, belowNumber, msg) {
+	var toQuestionAction = F5(
+		function (action, number, belowNumber, msg, listOptions) {
 			var _p2 = _elm_lang$core$String$toLower(action);
 			switch (_p2) {
 				case 'addquestion':
@@ -10154,6 +10183,9 @@ var _user$project$JsonImporter$decodeAction = function () {
 				case 'addquestionbelow':
 					return _elm_lang$core$Json_Decode$succeed(
 						A2(_user$project$Model$AddQuestionBelow, number, belowNumber));
+				case 'replacealloptions':
+					return _elm_lang$core$Json_Decode$succeed(
+						A2(_user$project$Model$ReplaceAllOptions, number, listOptions));
 				default:
 					return _elm_lang$core$Json_Decode$fail(
 						A2(_elm_lang$core$Basics_ops['++'], 'Unable to decode action: ', action));
@@ -10162,24 +10194,29 @@ var _user$project$JsonImporter$decodeAction = function () {
 	return _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$resolve(
 		A4(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
-			'message',
-			_elm_lang$core$Json_Decode$string,
-			'',
+			'options',
+			_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string),
+			{ctor: '[]'},
 			A4(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
-				'below',
-				_elm_lang$core$Json_Decode$int,
-				0,
+				'message',
+				_elm_lang$core$Json_Decode$string,
+				'',
 				A4(
 					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
-					'number',
+					'below',
 					_elm_lang$core$Json_Decode$int,
 					0,
-					A3(
-						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-						'action',
-						_elm_lang$core$Json_Decode$string,
-						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(toQuestionAction))))));
+					A4(
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+						'number',
+						_elm_lang$core$Json_Decode$int,
+						0,
+						A3(
+							_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+							'action',
+							_elm_lang$core$Json_Decode$string,
+							_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(toQuestionAction)))))));
 }();
 var _user$project$JsonImporter$decodeQuestion = A4(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
@@ -10230,6 +10267,204 @@ var _user$project$JsonImporter$importQuestionInPage = function (jsonString) {
 var _user$project$JsonImporter$importQuestionsJson = function (jsonString) {
 	return A2(_elm_lang$core$Json_Decode$decodeString, _user$project$JsonImporter$decodeListOfQuestions, jsonString);
 };
+
+var _user$project$Update$insertIntoListAfter = F4(
+	function (num, afterNum, newList, list) {
+		insertIntoListAfter:
+		while (true) {
+			var _p0 = list;
+			if (_p0.ctor === '::') {
+				var _p2 = _p0._1;
+				var _p1 = _p0._0;
+				if (_elm_lang$core$Native_Utils.eq(_p1, afterNum)) {
+					var _v1 = num,
+						_v2 = afterNum,
+						_v3 = {
+						ctor: '::',
+						_0: afterNum,
+						_1: {ctor: '::', _0: num, _1: newList}
+					},
+						_v4 = _p2;
+					num = _v1;
+					afterNum = _v2;
+					newList = _v3;
+					list = _v4;
+					continue insertIntoListAfter;
+				} else {
+					var _v5 = num,
+						_v6 = afterNum,
+						_v7 = {ctor: '::', _0: _p1, _1: newList},
+						_v8 = _p2;
+					num = _v5;
+					afterNum = _v6;
+					newList = _v7;
+					list = _v8;
+					continue insertIntoListAfter;
+				}
+			} else {
+				return newList;
+			}
+		}
+	});
+var _user$project$Update$pullChildrenQuestions = F2(
+	function (qID, model) {
+		return A2(
+			_elm_lang$core$List$concatMap,
+			function (_) {
+				return _.childQuestions;
+			},
+			A2(
+				_elm_lang$core$List$filter,
+				function (q) {
+					return _elm_lang$core$Native_Utils.eq(q.uuid, qID);
+				},
+				model.questionList));
+	});
+var _user$project$Update$updateWithAction = F2(
+	function (msg, model) {
+		var _p3 = msg;
+		switch (_p3.ctor) {
+			case 'NoAction':
+				return model;
+			case 'AddQuestion':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						questionsInPage: _elm_lang$core$List$reverse(
+							A2(
+								F2(
+									function (x, y) {
+										return {ctor: '::', _0: x, _1: y};
+									}),
+								_p3._0,
+								_elm_lang$core$List$reverse(model.questionsInPage)))
+					});
+			case 'AddQuestionBelow':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						questionsInPage: A4(
+							_user$project$Update$insertIntoListAfter,
+							_p3._0,
+							_p3._1,
+							{ctor: '[]'},
+							_elm_lang$core$List$reverse(model.questionsInPage))
+					});
+			case 'RmQuestion':
+				var _p4 = _p3._0;
+				var childrenQuestions = A2(
+					F2(
+						function (x, y) {
+							return {ctor: '::', _0: x, _1: y};
+						}),
+					_p4,
+					A2(_user$project$Update$pullChildrenQuestions, _p4, model));
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						questionsInPage: A2(
+							_elm_lang$core$List$filter,
+							function (i) {
+								return !A2(_elm_lang$core$List$member, i, childrenQuestions);
+							},
+							model.questionsInPage)
+					});
+			case 'AddAlert':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						alertMessages: {ctor: '::', _0: _p3._0, _1: model.alertMessages}
+					});
+			case 'ClearAlert':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						alertMessages: A2(
+							_elm_lang$core$List$filter,
+							function (s) {
+								return !_elm_lang$core$Native_Utils.eq(s, _p3._0);
+							},
+							model.alertMessages)
+					});
+			case 'StartEdit':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						questionList: A2(
+							_elm_lang$core$List$map,
+							function (q) {
+								return _elm_lang$core$Native_Utils.eq(q.uuid, _p3._0) ? _elm_lang$core$Native_Utils.update(
+									q,
+									{questionType: _user$project$Model$TextBox}) : q;
+							},
+							model.questionList)
+					});
+			case 'StopEdit':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						questionList: A2(
+							_elm_lang$core$List$map,
+							function (q) {
+								return _elm_lang$core$Native_Utils.eq(q.uuid, _p3._0) ? _elm_lang$core$Native_Utils.update(
+									q,
+									{questionType: _user$project$Model$EditBox}) : q;
+							},
+							model.questionList)
+					});
+			case 'ReplaceAllOptions':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						questionList: A2(
+							_elm_lang$core$List$map,
+							function (q) {
+								return _elm_lang$core$Native_Utils.eq(q.uuid, _p3._0) ? _elm_lang$core$Native_Utils.update(
+									q,
+									{options: _p3._1}) : q;
+							},
+							model.questionList)
+					});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						alertMessages: A2(
+							F2(
+								function (x, y) {
+									return {ctor: '::', _0: x, _1: y};
+								}),
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'Error: Unable to Process, Unknown Type.',
+								_elm_lang$core$Basics$toString(msg)),
+							model.alertMessages)
+					});
+		}
+	});
+var _user$project$Update$update = F2(
+	function (msgs, model) {
+		var updateModel = F2(
+			function (m, acc) {
+				return A2(_user$project$Update$updateWithAction, m, acc);
+			});
+		return A3(
+			_elm_lang$core$List$foldl,
+			F2(
+				function (m, acc) {
+					return A2(updateModel, m, acc);
+				}),
+			model,
+			msgs);
+	});
+var _user$project$Update$updateWithFlags = F2(
+	function (msgs, model) {
+		return {
+			ctor: '_Tuple2',
+			_0: A2(_user$project$Update$update, msgs, model),
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
+	});
 
 var _user$project$MarkdownBuilder$options = {
 	githubFlavored: _elm_lang$core$Maybe$Just(
@@ -10551,12 +10786,8 @@ var _user$project$View$viewQuestionItem = function (questionRecord) {
 			return _user$project$EditBoxBuilder$buildEditBoxQuestion(questionRecord);
 		case 'TextBox':
 			return A2(_user$project$EditBoxBuilder$buildTextAreaQuestion, false, questionRecord);
-		case 'TextArea':
-			return A2(_user$project$EditBoxBuilder$buildTextAreaQuestion, true, questionRecord);
 		case 'RadioButton':
 			return _user$project$RadioButtonBuilder$buildRadioButtonQuestion(questionRecord);
-		case 'TextInput':
-			return _user$project$TextInputBuilder$buildTextInputQuestion(questionRecord);
 		case 'SubHeading':
 			return A2(
 				_elm_lang$html$Html$h2,
@@ -10719,206 +10950,6 @@ var _user$project$View$view = function (model) {
 		});
 };
 
-var _user$project$Update$insertIntoListAfter = F4(
-	function (num, afterNum, newList, list) {
-		insertIntoListAfter:
-		while (true) {
-			var _p0 = list;
-			if (_p0.ctor === '::') {
-				var _p2 = _p0._1;
-				var _p1 = _p0._0;
-				if (_elm_lang$core$Native_Utils.eq(_p1, afterNum)) {
-					var _v1 = num,
-						_v2 = afterNum,
-						_v3 = {
-						ctor: '::',
-						_0: afterNum,
-						_1: {ctor: '::', _0: num, _1: newList}
-					},
-						_v4 = _p2;
-					num = _v1;
-					afterNum = _v2;
-					newList = _v3;
-					list = _v4;
-					continue insertIntoListAfter;
-				} else {
-					var _v5 = num,
-						_v6 = afterNum,
-						_v7 = {ctor: '::', _0: _p1, _1: newList},
-						_v8 = _p2;
-					num = _v5;
-					afterNum = _v6;
-					newList = _v7;
-					list = _v8;
-					continue insertIntoListAfter;
-				}
-			} else {
-				return newList;
-			}
-		}
-	});
-var _user$project$Update$pullChildrenQuestions = F2(
-	function (qID, model) {
-		return A2(
-			_elm_lang$core$List$concatMap,
-			function (_) {
-				return _.childQuestions;
-			},
-			A2(
-				_elm_lang$core$List$filter,
-				function (q) {
-					return _elm_lang$core$Native_Utils.eq(q.uuid, qID);
-				},
-				model.questionList));
-	});
-var _user$project$Update$updateWithAction = F2(
-	function (msg, model) {
-		var _p3 = msg;
-		switch (_p3.ctor) {
-			case 'NoAction':
-				return model;
-			case 'AddQuestion':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						questionsInPage: _elm_lang$core$List$reverse(
-							A2(
-								F2(
-									function (x, y) {
-										return {ctor: '::', _0: x, _1: y};
-									}),
-								_p3._0,
-								_elm_lang$core$List$reverse(model.questionsInPage)))
-					});
-			case 'AddQuestionBelow':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						questionsInPage: A4(
-							_user$project$Update$insertIntoListAfter,
-							_p3._0,
-							_p3._1,
-							{ctor: '[]'},
-							_elm_lang$core$List$reverse(model.questionsInPage))
-					});
-			case 'RmQuestion':
-				var _p4 = _p3._0;
-				var childrenQuestions = A2(
-					F2(
-						function (x, y) {
-							return {ctor: '::', _0: x, _1: y};
-						}),
-					_p4,
-					A2(_user$project$Update$pullChildrenQuestions, _p4, model));
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						questionsInPage: A2(
-							_elm_lang$core$List$filter,
-							function (i) {
-								return !A2(_elm_lang$core$List$member, i, childrenQuestions);
-							},
-							model.questionsInPage)
-					});
-			case 'AddAlert':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						alertMessages: {ctor: '::', _0: _p3._0, _1: model.alertMessages}
-					});
-			case 'ClearAlert':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						alertMessages: A2(
-							_elm_lang$core$List$filter,
-							function (s) {
-								return !_elm_lang$core$Native_Utils.eq(s, _p3._0);
-							},
-							model.alertMessages)
-					});
-			case 'StartEdit':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						questionList: A2(
-							_elm_lang$core$List$map,
-							function (q) {
-								return _elm_lang$core$Native_Utils.eq(q.uuid, _p3._0) ? _elm_lang$core$Native_Utils.update(
-									q,
-									{questionType: _user$project$Model$TextBox}) : q;
-							},
-							model.questionList)
-					});
-			case 'StopEdit':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						questionList: A2(
-							_elm_lang$core$List$map,
-							function (q) {
-								return _elm_lang$core$Native_Utils.eq(q.uuid, _p3._0) ? _elm_lang$core$Native_Utils.update(
-									q,
-									{questionType: _user$project$Model$EditBox}) : q;
-							},
-							model.questionList)
-					});
-			case 'ReplaceText':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						questionList: A2(
-							_elm_lang$core$List$map,
-							function (q) {
-								return _elm_lang$core$Native_Utils.eq(q.uuid, _p3._0) ? _elm_lang$core$Native_Utils.update(
-									q,
-									{
-										options: _elm_lang$core$List$singleton(_p3._1)
-									}) : q;
-							},
-							model.questionList)
-					});
-			default:
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						alertMessages: A2(
-							F2(
-								function (x, y) {
-									return {ctor: '::', _0: x, _1: y};
-								}),
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'Error: Unable to Process, Unknown Type.',
-								_elm_lang$core$Basics$toString(msg)),
-							model.alertMessages)
-					});
-		}
-	});
-var _user$project$Update$update = F2(
-	function (msgs, model) {
-		var updateModel = F2(
-			function (m, acc) {
-				return A2(_user$project$Update$updateWithAction, m, acc);
-			});
-		return A3(
-			_elm_lang$core$List$foldl,
-			F2(
-				function (m, acc) {
-					return A2(updateModel, m, acc);
-				}),
-			model,
-			msgs);
-	});
-var _user$project$Update$updateWithFlags = F2(
-	function (msgs, model) {
-		return {
-			ctor: '_Tuple2',
-			_0: A2(_user$project$Update$update, msgs, model),
-			_1: _elm_lang$core$Platform_Cmd$none
-		};
-	});
-
 var _user$project$Main$processFlags = function (flag) {
 	var captureError = function (result) {
 		var _p0 = result;
@@ -10954,20 +10985,8 @@ var _user$project$Main$processFlags = function (flag) {
 var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
-var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
-	{init: _user$project$Main$processFlags, update: _user$project$Update$updateWithFlags, subscriptions: _user$project$Main$subscriptions, view: _user$project$View$view})(
-	A2(
-		_elm_lang$core$Json_Decode$andThen,
-		function (l) {
-			return A2(
-				_elm_lang$core$Json_Decode$andThen,
-				function (q) {
-					return _elm_lang$core$Json_Decode$succeed(
-						{l: l, q: q});
-				},
-				A2(_elm_lang$core$Json_Decode$field, 'q', _elm_lang$core$Json_Decode$string));
-		},
-		A2(_elm_lang$core$Json_Decode$field, 'l', _elm_lang$core$Json_Decode$string)));
+var _user$project$Main$main = _elm_lang$html$Html$beginnerProgram(
+	{model: _user$project$Model$model, view: _user$project$View$view, update: _user$project$Update$update})();
 var _user$project$Main$Flag = F2(
 	function (a, b) {
 		return {l: a, q: b};
