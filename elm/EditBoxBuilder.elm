@@ -28,7 +28,7 @@ buildEditBoxQuestion question =
             ]
         ]
 
-
+-- this Function Can be extracted to Extra
 buildContentParrographs : List String -> List (Html msg)
 buildContentParrographs stringList =
     stringList

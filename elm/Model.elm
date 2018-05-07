@@ -42,17 +42,19 @@ type QuestionAction
     | ReplaceAllOptions Int (List String) -- used internally by EditBox but open to external
     | AddAlert String 
     | ClearAlert String 
-    | Print -- Finishing action to print
+    | BuildDoc -- Finishing action to print
     | NoAction 
 
 
 type SaveAction 
-    = SaveText
-    | NoSave
+    = SaveText -- Do Not Implement for "MVP" of Save
+    | SaveAll 
+    | NoSave -- None and NoSave are the same use one NoSave is more semantic
     | None 
 
 type alias Model =
-    { alertMessages : List String -- Should be Maybe List String or just List String
+    { alertMessages : List String 
+    , buildDoc : Bool 
     , questionsInPage : List Int 
     , questionList : List QuestionRecord
     }
@@ -64,6 +66,7 @@ model = initialModel
 initialModel : Model
 initialModel = 
   { alertMessages = [ "Error: bad robot", "Error: Really Bad Robot"]
+  , buildDoc = False 
   , questionsInPage = [110, 100, 1001, 1002, 301]  -- this will have to be expanded w/ the concept of pages later
   , questionList =
     [ --QuestionRecord 1001 "TextInput Q" ["go on living", "iZombie ok", "fine"] TextInput None [] [] []

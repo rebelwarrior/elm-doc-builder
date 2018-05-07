@@ -69,8 +69,12 @@ processFlags flag =
         initialQuestionsInPage =
             Result.withDefault [] listOfQuestionsOnPageResult
 
+        initialBuildDocStatus : Bool
+        initialBuildDocStatus =
+            False
+
         initialModel : Model.Model
         initialModel =
-            Model.Model initialAlerts initialQuestionsInPage initialQuestionsList
+            Model.Model initialAlerts initialBuildDocStatus initialQuestionsInPage initialQuestionsList
     in
     ( initialModel, Cmd.none )

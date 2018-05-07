@@ -22,7 +22,7 @@ view model =
       , viewH1
       , div [ class css.subgrid ] 
                 [ div [ class css.large_column ]
-                    (viewQuestionList model.questionList model.questionsInPage)
+                    (viewQuestionList model.questionList model.questionsInPage model.buildDoc)
                 , div [] []
                 ]
       , viewFooter
@@ -49,52 +49,58 @@ viewFooter =
 
 -- This allows proper sorting of the questions.
 -- Write a blog about this. 
-viewQuestionList : List Model.QuestionRecord -> List Int -> List (Html (List Model.QuestionAction))
-viewQuestionList allQuestions questions =
+viewQuestionList : List Model.QuestionRecord -> List Int -> Bool -> List (Html (List Model.QuestionAction))
+viewQuestionList allQuestions questions buildDoc =
   let
+    partialQuestions : List Model.QuestionRecord 
     partialQuestions =
       allQuestions
         |> List.filter (\q -> List.member q.uuid questions)
-
+    
   in
       questions
         |> List.map (\i -> (List.filter (\q -> q.uuid == i ) partialQuestions))
         |> List.concat
-        |> List.map viewQuestionItem
+        |> List.map (viewQuestionItemFunction buildDoc)
 
+viewQuestionItemFunction : Bool -> Model.QuestionRecord -> Html (List Model.QuestionAction)
+viewQuestionItemFunction buildDoc = 
+    case buildDoc of 
+        False -> viewQuestionItem
+        True  -> viewSaveQuestion
 
 viewQuestionItem : Model.QuestionRecord -> Html (List Model.QuestionAction)
-viewQuestionItem questionRecord =
-    case questionRecord.questionType of
+viewQuestionItem question =
+    case question.questionType of
         Model.DropDown ->
-            buildDropDownQuestion questionRecord
+            buildDropDownQuestion question
 
         Model.Markdown ->
-            buildMarkdown questionRecord
+            buildMarkdown question
 
         Model.CheckBox ->
-            buildCheckboxQuestion questionRecord
+            buildCheckboxQuestion question
 
         Model.EditBox ->
-            buildEditBoxQuestion questionRecord
+            buildEditBoxQuestion question
 
         Model.TextBox ->
-            buildTextAreaQuestion False questionRecord
+            buildTextAreaQuestion False question
 
         -- Model.TextArea ->
-        --     buildTextAreaQuestion True questionRecord
+        --     buildTextAreaQuestion True question
 
         Model.RadioButton ->
-            buildRadioButtonQuestion questionRecord
+            buildRadioButtonQuestion question
 
         -- Model.TextInput ->
-        --     buildTextInputQuestion questionRecord
+        --     buildTextInputQuestion question
 
         -- Model.Button ->
-        --     buildButton questionRecord
+        --     buildButton question
 
         Model.SubHeading ->
-            h2 [ class "sub-heading" ] [ text questionRecord.title ]
+            h2 [ class "sub-heading" ] [ text question.title ]
             -- This should be called Heading and options should allow you to set the H level 1-6.
 
         -- Model.NotAQuestion ->
@@ -104,7 +110,27 @@ viewQuestionItem questionRecord =
         --         ]
 
         -- Model.Image ->
-        --     buildImage questionRecord 
+        --     buildImage question 
 
         _ ->
             div [] [ text "No QuestionType Error" ] -- This should be an alert
+
+-- From EditBoxBuilder Should be extracted to Extra
+buildContentParrographs : List String -> List (Html msg)
+buildContentParrographs stringList =
+    stringList
+        |> List.concatMap (String.split "\n")
+        |> List.map (\x -> p [] [ text x ])
+
+viewSaveQuestion : Model.QuestionRecord -> Html (List Model.QuestionAction)
+viewSaveQuestion question = 
+    case question.saveAction of
+        Model.NoSave ->
+            div [] []
+        Model.SaveAll -> 
+            (viewQuestionItem question)
+        -- Model.SaveText -> 
+        --     div [] (buildContentParrographs question.options)
+        _ -> 
+            div [] []
+      

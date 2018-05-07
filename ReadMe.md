@@ -81,6 +81,7 @@ Also where is the readme for the quesitons?
 
 TODO:
 1. [] Implement Save Actions to Document Creation 
+1. [] Simplify DropDown based on Checkboxex/Radio button pattern 
 1. [] Fully implement jekyll theme pattern
 2. [] Fix fade easing of alerts without using js. (if possible)
 3. [] Implement Heading (reimplementation of Subheading)
@@ -88,3 +89,8 @@ TODO:
 5. [] Implement TextInput (presently incomplete)
 6. [] Implement NotAQuestion (also rename) 
 7. [] Verify Accessibility tags
+
+Key Technical problems:
+1. Use a List of Msg rather than just one in 
+2. How to sort the list of questions in order (View)
+3. How to build a Dropdown
