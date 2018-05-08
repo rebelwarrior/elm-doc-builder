@@ -1,4 +1,4 @@
-module DropDownBuilder exposing (buildDropDownQuestion)
+module DropDownBuilderOld exposing (buildDropDownQuestion)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -58,6 +58,7 @@ buildDropDownQuestion question =
             Html.Events.targetValue 
             |> Json.Decode.andThen valueToActions
 
+
     in
         div [ class css.question ]
             [ Html.label [ class "question-text", attribute "for" question.title ] [ text question.title ]
@@ -66,20 +67,40 @@ buildDropDownQuestion question =
                     [ class css.select
                     , id question.title
                     , on "change" valueDecoder  -- This is a Json Decoder I need a new one that spits out a QuestionAction
-                    ] (List.indexedMap dropDownOption question.options)
+                    ] (listOptions question.options )
             -- , div [] [text (toString question.actions)] --Debug
             ]
 
-dropDownOption : Int -> String -> Html msg
-dropDownOption index optionName =
-    let 
-        abbreviatedName : String 
-        abbreviatedName = 
-            (String.slice 0 7 optionName) 
-            |> (++) (toString index)
-            |> String.toLower
-    in 
-        option [ value abbreviatedName 
-            , id ("data-" ++ abbreviatedName) 
+-- TODO change this to the pattern in ... radio buttons?
+listOptions : List String -> List (Html msg)
+listOptions options =
+    options
+        |> List.map (\option -> splitToTuple option "|" )
+        |> List.map convertTupleToDropDownOption
+
+
+splitToTuple : String -> String -> ( String , String )
+splitToTuple string splitChar =
+    let
+        listToString :(List String -> List String) -> List String -> String
+        listToString function list  =
+            list 
+            |> function 
+            |> List.head
+            |> Maybe.withDefault ""
+
+    in
+        
+        String.split splitChar string
+            |> List.take 2
+            |> (\x -> (,) (listToString (List.take 1) x) (listToString (List.drop 1) x))
+
+
+convertTupleToDropDownOption : ( String , String ) -> Html msg
+convertTupleToDropDownOption (acronym, name) =
+    option [ value acronym
+            , id ("data-" ++ acronym) 
             ] 
-            [ text optionName ] 
+            [ text name ] 
+
+

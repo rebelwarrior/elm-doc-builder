@@ -6,11 +6,11 @@ import Model
 
 import DropDownBuilder exposing (buildDropDownQuestion)
 import MarkdownBuilder exposing (buildMarkdown)
-import TextInputBuilder exposing (buildTextInputQuestion)
+-- import TextInputBuilder exposing (buildTextInputQuestion)
 import RadioButtonBuilder exposing (buildRadioButtonQuestion)
 import CheckBoxBuilder exposing (buildCheckboxQuestion)
 -- import TextInputBuilder exposing (buildTextInputQuestion)
-import EditBoxBuilder exposing (buildEditBoxQuestion, buildTextAreaQuestion)
+import EditBoxBuilder exposing (buildEditBoxQuestion, buildTextAreaQuestion, buildContentParrographs)
 -- import ImageBuilder exposing (buildImage)
 import AlertBuilder exposing (buildAlerts)
 import ButtonBuilder exposing (buildButton)
@@ -116,12 +116,6 @@ viewQuestionItem question =
         _ ->
             div [] [ text "No QuestionType Error" ] -- This should be an alert
 
--- From EditBoxBuilder Should be extracted to Extra
-buildContentParrographs : List String -> List (Html msg)
-buildContentParrographs stringList =
-    stringList
-        |> List.concatMap (String.split "\n")
-        |> List.map (\x -> p [] [ text x ])
 
 viewSaveQuestion : Model.QuestionRecord -> Html (List Model.QuestionAction)
 viewSaveQuestion question = 

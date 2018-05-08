@@ -1,4 +1,4 @@
-module EditBoxBuilder exposing (buildEditBoxQuestion, buildTextAreaQuestion)
+module EditBoxBuilder exposing (buildEditBoxQuestion, buildTextAreaQuestion, buildContentParrographs)
 
 import CssTranslation exposing (css)
 import Extra exposing (takeFirstText)

@@ -33,7 +33,7 @@ orderToActions actions int =
         |> Maybe.withDefault [] -- Should this have an error msg? AlertMsg? 
 
 -- This Function is also the Same Across Multiple Questions Consider Wrapping. 
--- For wrapping this funciton should return a Maybe Int have the default set where it's called. 
+-- For wrapping this function should return a Maybe Int have the default set where it's called. 
 optionNameToOrdinal : String -> List (String) -> Maybe Int 
 optionNameToOrdinal optionName options =
     options 
