@@ -27,24 +27,23 @@ listOfRadioButtons : Model.QuestionRecord -> List (Html (List Model.QuestionActi
 listOfRadioButtons question =
     let
         -- ## Decoder below:
+        actionList : String -> List Model.QuestionAction
+        actionList value =
+            (valueOrder value question.options)
+                |> List.concatMap (orderToActions question.actions) 
+
         valueToActions : String -> Json.Decode.Decoder (List Model.QuestionAction)
         valueToActions value =
-            let
-                actionList v =
-                    orderToActions question.actions (valueOrder v question.options)
-            in
-                value
-                    |> actionList
-                    |> Json.Decode.succeed
+            value
+                |> actionList
+                |> Json.Decode.succeed
 
-        valueOrder : String -> List String -> Int
+        valueOrder : String -> List String -> List Int
         valueOrder value options =
             options
                 |> List.indexedMap (,)
                 |> List.filter (\( i, v ) -> String.startsWith v value)
-                |> List.map (\( i, _ ) -> i)
-                |> List.head
-                |> Maybe.withDefault 0
+                |> List.map Tuple.first
 
         orderToActions : List (List Model.QuestionAction) -> Int -> List Model.QuestionAction
         orderToActions actions int =
@@ -57,7 +56,7 @@ listOfRadioButtons question =
             Html.Events.targetValue
                 |> Json.Decode.andThen valueToActions
 
-        -- End of Decoder
+        -- ## End of Decoder
         radioButton index optionName =
             div [ class css.list_radio ]
                 [ input

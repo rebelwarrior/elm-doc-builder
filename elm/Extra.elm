@@ -1,5 +1,12 @@
 module Extra exposing (..)
 
+-- For Taking the Description of Questions
+takeFirstText : List String -> String
+takeFirstText listOfStrings =
+    listOfStrings
+        |> List.head
+        |> Maybe.withDefault "" 
+
 -- useful for getting first Option from Option List
 firstListOfNestedList : List (List a) -> List a
 firstListOfNestedList list =
@@ -7,14 +14,13 @@ firstListOfNestedList list =
         hd :: tl -> hd
         []       -> []
 
-
-optionNameToOrdinal : String -> List (String) -> Maybe Int 
-optionNameToOrdinal optionName options =
-    options 
-        |> List.indexedMap (,)
-        |> List.filter (\ (i, v)  ->  String.startsWith v optionName )
-        |> List.map (\ (i, _) -> i )
-        |> List.head
+-- optionNameToOrdinal : String -> List (String) -> Maybe Int 
+-- optionNameToOrdinal optionName options =
+--     options 
+--         |> List.indexedMap (,)
+--         |> List.filter (\ (i, v)  ->  String.startsWith v optionName )
+--         |> List.map Tuple.first
+--         |> List.head
 
 -- Can be used in Dropdown/Select to generate ID as well. 
 -- Is this being used anywhere?
@@ -31,19 +37,5 @@ appendNumberToBeginningOfString string maybeA =
             Nothing -> beginningOfString
             Just a  -> beginningOfString ++ (toString a) 
 
--- usefull for getting the descriptions of questions.
-takeFirstText : List String -> String
-takeFirstText listOfStrings =
-    listOfStrings
-        |> List.head
-        |> Maybe.withDefault "" 
 
--- From Dropdown
-valueOrder : String -> List String-> List Int 
-valueOrder value options =
-    options 
-        |> List.indexedMap (,)
-        |> List.filter (\ (i, optionLongName)  ->  String.startsWith value optionLongName )
-        |> List.map (\ (i, _) -> i )
-        --|> List.head -- should this even return one? maybe should return a list
-        --|> Maybe.withDefault 0 -- This can hide an error Should return a Maybe Int 
+

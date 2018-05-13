@@ -14,33 +14,24 @@ buildDropDownQuestion : Model.QuestionRecord -> Html (List Model.QuestionAction)
 buildDropDownQuestion question =
     let
         -- ## Decoder below:
+        actionList : String -> List Model.QuestionAction
+        actionList value =
+            (valueOrder value question.options)
+                |> List.concatMap (orderToActions question.actions) 
+
         valueToActions : String -> Json.Decode.Decoder (List Model.QuestionAction)
         valueToActions value =
-            let
-                valueOrderList : List Int
-                valueOrderList =
-                    valueOrder value question.options
-
-                actionList : List Model.QuestionAction
-                actionList =
-                    valueOrderList
-                        |> List.concatMap (orderToActions question.actions)
-                        -- orderToActions question.actions (valueOrder v question.options)
-            in
-                actionList
-                    |> Json.Decode.succeed
+            value 
+                |> actionList
+                |> Json.Decode.succeed
 
         valueOrder : String -> List String -> List Int
         valueOrder value options =
             options
                 |> List.indexedMap (,)
                 |> List.filter (\( i, optionLongName ) -> String.startsWith value optionLongName)
-                |> List.map (\( i, _ ) -> i)
-                --|> List.head -- should this even return one? maybe should return a list
-                --|> Maybe.withDefault 0 -- This can hide an error Should return a Maybe Int
+                |> List.map Tuple.first
 
-
-        -- This can be consolidated. -- Maybe I can map this over a list of Ints above
         orderToActions : List (List Model.QuestionAction) -> Int -> List Model.QuestionAction
         orderToActions actions int =
             actions
@@ -52,7 +43,7 @@ buildDropDownQuestion question =
             Html.Events.targetValue
                 |> Json.Decode.andThen valueToActions
 
-        -- End of Decoder
+        -- ## End of Decoder
     in
         div [ class css.question ]
             [ Html.label [ class "question-text", attribute "for" question.title ] [ text question.title ]
@@ -62,8 +53,7 @@ buildDropDownQuestion question =
                 , id question.title
                 , on "change" valueDecoder
                 ]
-                (List.indexedMap dropDownOption question.options)
-            -- , div [] [text (toString question.actions)] --Debug
+                (List.indexedMap dropDownOption question.options) -- , div [] [text (toString question.actions)] --Debug
             ]
 
 
@@ -73,8 +63,8 @@ dropDownOption index optionName =
         abbreviatedName : String
         abbreviatedName =
             optionName
-                |> String.trim 
-                |> String.left 8
+                |> String.left 10 
+                
 
     in
         option

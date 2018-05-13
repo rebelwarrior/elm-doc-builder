@@ -85,8 +85,8 @@ sampleQuestionJson =
     , "type" : "dropdown"
     , "saveAction" : ""
     , "options" : 
-        [ "PAN|American"
-        , "SIN|Gringo"
+        [ "American"
+        , "Gambino"
         ]
     , "actions" : 
       [ 

@@ -20,16 +20,12 @@ insertIntoListAfter num afterNum newList list =
         newList 
 
 
-
--- Add max options to check boxes.
-
-
 updateWithAction : Model.QuestionAction -> Model.Model -> Model.Model 
 updateWithAction msg model =
     case msg of 
       Model.NoAction -> model 
       Model.AddQuestion qID ->
-          { model | questionsInPage = --NotMVP but should also remove children
+          { model | questionsInPage = 
                 model.questionsInPage
                   |> List.reverse 
                   |> (::) qID 
