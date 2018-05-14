@@ -14,23 +14,14 @@ firstListOfNestedList list =
         hd :: tl -> hd
         []       -> []
 
--- optionNameToOrdinal : String -> List (String) -> Maybe Int 
--- optionNameToOrdinal optionName options =
---     options 
---         |> List.indexedMap (,)
---         |> List.filter (\ (i, v)  ->  String.startsWith v optionName )
---         |> List.map Tuple.first
---         |> List.head
-
--- Can be used in Dropdown/Select to generate ID as well. 
--- Is this being used anywhere?
-appendNumberToBeginningOfString : String -> Maybe a -> String 
-appendNumberToBeginningOfString string maybeA =
+-- Can be used to append numbers to selections. 
+appendNumberToBeginningOfString : String -> Int -> Maybe a -> String 
+appendNumberToBeginningOfString string charsLimit maybeA =
     let  
         beginningOfString = -- String.toLower (String.left 8 (String.trim string))
             string 
                 |> String.trim 
-                |> String.left 8
+                |> String.left charsLimit
                 |> String.toLower 
     in 
         case maybeA of 
