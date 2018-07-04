@@ -21,6 +21,8 @@ type alias TableRecord =
 -- TODO: This should be a collecting question type that ties 6 other text inputs 
 -- Essentially a presentation group, maybe use child questions for this?
 
+-- Maybe this should use CSS Grid instead. 
+
 -- update : Msg -> Model -> Model
 
 

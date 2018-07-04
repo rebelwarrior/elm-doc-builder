@@ -80,12 +80,12 @@ Table should be a collection of Text Input Quesionts...
 Also where is the readme for the quesitons?
 
 TODO:
-1. [] Implement Save Actions to Document Creation 
-1. [] Simplify DropDown based on Checkboxex/Radio button pattern 
+1. [x] Implement Save Actions to Document Creation 
+1. [x] Simplify DropDown based on Checkboxex/Radio button pattern 
+4. [] Implement Table (important)
 1. [] Fully implement jekyll theme pattern
 2. [] Fix fade easing of alerts without using js. (if possible)
 3. [] Implement Heading (reimplementation of Subheading)
-4. [] Implement Table
 5. [] Implement TextInput (presently incomplete)
 6. [] Implement NotAQuestion (also rename) 
 7. [] Verify Accessibility tags

@@ -8500,9 +8500,9 @@ var _user$project$Model$QuestionRecord = F8(
 	function (a, b, c, d, e, f, g, h) {
 		return {uuid: a, title: b, text: c, questionType: d, saveAction: e, options: f, actions: g, childQuestions: h};
 	});
-var _user$project$Model$Model = F3(
-	function (a, b, c) {
-		return {alertMessages: a, questionsInPage: b, questionList: c};
+var _user$project$Model$Model = F4(
+	function (a, b, c, d) {
+		return {alertMessages: a, buildDoc: b, questionsInPage: c, questionList: d};
 	});
 var _user$project$Model$AnswersRecord = F2(
 	function (a, b) {
@@ -8522,6 +8522,7 @@ var _user$project$Model$RadioButton = {ctor: 'RadioButton'};
 var _user$project$Model$CheckBox = {ctor: 'CheckBox'};
 var _user$project$Model$Markdown = {ctor: 'Markdown'};
 var _user$project$Model$DropDown = {ctor: 'DropDown'};
+var _user$project$Model$Error = {ctor: 'Error'};
 var _user$project$Model$NoAction = {ctor: 'NoAction'};
 var _user$project$Model$Print = {ctor: 'Print'};
 var _user$project$Model$ClearAlert = function (a) {
@@ -8551,6 +8552,9 @@ var _user$project$Model$AddQuestion = function (a) {
 	return {ctor: 'AddQuestion', _0: a};
 };
 var _user$project$Model$None = {ctor: 'None'};
+var _user$project$Model$NoSave = {ctor: 'NoSave'};
+var _user$project$Model$SaveAll = {ctor: 'SaveAll'};
+var _user$project$Model$SaveText = {ctor: 'SaveText'};
 var _user$project$Model$initialModel = {
 	alertMessages: {
 		ctor: '::',
@@ -8561,6 +8565,7 @@ var _user$project$Model$initialModel = {
 			_1: {ctor: '[]'}
 		}
 	},
+	buildDoc: false,
 	questionsInPage: {
 		ctor: '::',
 		_0: 110,
@@ -8576,7 +8581,11 @@ var _user$project$Model$initialModel = {
 					_1: {
 						ctor: '::',
 						_0: 301,
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: 200,
+							_1: {ctor: '[]'}
+						}
 					}
 				}
 			}
@@ -9150,7 +9159,7 @@ var _user$project$Model$initialModel = {
 																	}
 																},
 																_user$project$Model$EditBox,
-																_user$project$Model$None,
+																_user$project$Model$SaveText,
 																{
 																	ctor: '::',
 																	_0: 'Stuff that Goes Inside.',
@@ -9258,7 +9267,32 @@ var _user$project$Model$initialModel = {
 																			}
 																		},
 																		{ctor: '[]'}),
-																	_1: {ctor: '[]'}
+																	_1: {
+																		ctor: '::',
+																		_0: A8(
+																			_user$project$Model$QuestionRecord,
+																			200,
+																			'Print Button',
+																			{
+																				ctor: '::',
+																				_0: 'click to print',
+																				_1: {ctor: '[]'}
+																			},
+																			_user$project$Model$Button,
+																			_user$project$Model$SaveAll,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: {
+																					ctor: '::',
+																					_0: _user$project$Model$Print,
+																					_1: {ctor: '[]'}
+																				},
+																				_1: {ctor: '[]'}
+																			},
+																			{ctor: '[]'}),
+																		_1: {ctor: '[]'}
+																	}
 																}
 															}
 														}
@@ -9277,8 +9311,6 @@ var _user$project$Model$initialModel = {
 	}
 };
 var _user$project$Model$model = _user$project$Model$initialModel;
-var _user$project$Model$NoSave = {ctor: 'NoSave'};
-var _user$project$Model$SaveText = {ctor: 'SaveText'};
 
 var _user$project$AlertBuilder$viewAlertMsg = function (messageList) {
 	var displayMessage = function (message) {
@@ -9354,6 +9386,65 @@ var _user$project$AlertBuilder$viewAlertMsg = function (messageList) {
 };
 var _user$project$AlertBuilder$buildAlerts = function (messageList) {
 	return _user$project$AlertBuilder$viewAlertMsg(messageList);
+};
+
+var _user$project$Extra$appendNumberToBeginningOfString = F3(
+	function (string, charsLimit, maybeA) {
+		var beginningOfString = _elm_lang$core$String$toLower(
+			A2(
+				_elm_lang$core$String$left,
+				charsLimit,
+				_elm_lang$core$String$trim(string)));
+		var _p0 = maybeA;
+		if (_p0.ctor === 'Nothing') {
+			return beginningOfString;
+		} else {
+			return A2(
+				_elm_lang$core$Basics_ops['++'],
+				beginningOfString,
+				_elm_lang$core$Basics$toString(_p0._0));
+		}
+	});
+var _user$project$Extra$firstListOfNestedList = function (list) {
+	var _p1 = list;
+	if (_p1.ctor === '::') {
+		return _p1._0;
+	} else {
+		return {ctor: '[]'};
+	}
+};
+var _user$project$Extra$takeFirstText = function (listOfStrings) {
+	return A2(
+		_elm_lang$core$Maybe$withDefault,
+		'',
+		_elm_lang$core$List$head(listOfStrings));
+};
+
+var _user$project$ButtonBuilder$buildButton = function (question) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$button,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class(_user$project$CssTranslation$css.button_outline),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Extra$firstListOfNestedList(question.actions)),
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(question.title),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
 };
 
 var _user$project$CheckBoxBuilder$appendNumberToBeginningOfString = F2(
@@ -9610,68 +9701,27 @@ var _user$project$CheckBoxBuilder$buildCheckboxQuestion = function (question) {
 		});
 };
 
-var _user$project$DropDownBuilder$convertTupleToDropDownOption = function (_p0) {
-	var _p1 = _p0;
-	var _p2 = _p1._0;
-	return A2(
-		_elm_lang$html$Html$option,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$value(_p2),
-			_1: {
+var _user$project$DropDownBuilder$dropDownOption = F2(
+	function (index, optionName) {
+		var abbreviatedName = A2(_elm_lang$core$String$left, 10, optionName);
+		return A2(
+			_elm_lang$html$Html$option,
+			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$id(
-					A2(_elm_lang$core$Basics_ops['++'], 'data-', _p2)),
-				_1: {ctor: '[]'}
-			}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(_p1._1),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$DropDownBuilder$splitToTuple = F2(
-	function (string, splitChar) {
-		var listToString = F2(
-			function ($function, list) {
-				return A2(
-					_elm_lang$core$Maybe$withDefault,
-					'',
-					_elm_lang$core$List$head(
-						$function(list)));
-			});
-		return function (x) {
-			return A2(
-				F2(
-					function (v0, v1) {
-						return {ctor: '_Tuple2', _0: v0, _1: v1};
-					}),
-				A2(
-					listToString,
-					_elm_lang$core$List$take(1),
-					x),
-				A2(
-					listToString,
-					_elm_lang$core$List$drop(1),
-					x));
-		}(
-			A2(
-				_elm_lang$core$List$take,
-				2,
-				A2(_elm_lang$core$String$split, splitChar, string)));
-	});
-var _user$project$DropDownBuilder$listOptions = function (options) {
-	return A2(
-		_elm_lang$core$List$map,
-		_user$project$DropDownBuilder$convertTupleToDropDownOption,
-		A2(
-			_elm_lang$core$List$map,
-			function (option) {
-				return A2(_user$project$DropDownBuilder$splitToTuple, option, '|');
+				_0: _elm_lang$html$Html_Attributes$value(abbreviatedName),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$id(
+						A2(_elm_lang$core$Basics_ops['++'], 'data-', abbreviatedName)),
+					_1: {ctor: '[]'}
+				}
 			},
-			options));
-};
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(optionName),
+				_1: {ctor: '[]'}
+			});
+	});
 var _user$project$DropDownBuilder$buildDropDownQuestion = function (question) {
 	var orderToActions = F2(
 		function (actions, $int) {
@@ -9687,15 +9737,12 @@ var _user$project$DropDownBuilder$buildDropDownQuestion = function (question) {
 		function (value, options) {
 			return A2(
 				_elm_lang$core$List$map,
-				function (_p3) {
-					var _p4 = _p3;
-					return _p4._0;
-				},
+				_elm_lang$core$Tuple$first,
 				A2(
 					_elm_lang$core$List$filter,
-					function (_p5) {
-						var _p6 = _p5;
-						return A2(_elm_lang$core$String$startsWith, value, _p6._1);
+					function (_p0) {
+						var _p1 = _p0;
+						return A2(_elm_lang$core$String$startsWith, value, _p1._1);
 					},
 					A2(
 						_elm_lang$core$List$indexedMap,
@@ -9705,19 +9752,17 @@ var _user$project$DropDownBuilder$buildDropDownQuestion = function (question) {
 							}),
 						options)));
 		});
-	var valueToActions = function (value) {
-		var valueOrderList = A2(valueOrder, value, question.options);
-		var actionList = A2(
+	var actionList = function (value) {
+		return A2(
 			_elm_lang$core$List$concatMap,
 			orderToActions(question.actions),
-			valueOrderList);
-		return _elm_lang$core$Json_Decode$succeed(actionList);
+			A2(valueOrder, value, question.options));
+	};
+	var valueToActions = function (value) {
+		return _elm_lang$core$Json_Decode$succeed(
+			actionList(value));
 	};
 	var valueDecoder = A2(_elm_lang$core$Json_Decode$andThen, valueToActions, _elm_lang$html$Html_Events$targetValue);
-	var description = A2(
-		_elm_lang$core$Maybe$withDefault,
-		'',
-		_elm_lang$core$List$head(question.text));
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -9754,7 +9799,8 @@ var _user$project$DropDownBuilder$buildDropDownQuestion = function (question) {
 					},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(description),
+						_0: _elm_lang$html$Html$text(
+							_user$project$Extra$takeFirstText(question.text)),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -9774,81 +9820,12 @@ var _user$project$DropDownBuilder$buildDropDownQuestion = function (question) {
 								}
 							}
 						},
-						_user$project$DropDownBuilder$listOptions(question.options)),
+						A2(_elm_lang$core$List$indexedMap, _user$project$DropDownBuilder$dropDownOption, question.options)),
 					_1: {ctor: '[]'}
 				}
 			}
 		});
 };
-
-var _user$project$Extra$valueOrder = F2(
-	function (value, options) {
-		return A2(
-			_elm_lang$core$List$map,
-			function (_p0) {
-				var _p1 = _p0;
-				return _p1._0;
-			},
-			A2(
-				_elm_lang$core$List$filter,
-				function (_p2) {
-					var _p3 = _p2;
-					return A2(_elm_lang$core$String$startsWith, value, _p3._1);
-				},
-				A2(
-					_elm_lang$core$List$indexedMap,
-					F2(
-						function (v0, v1) {
-							return {ctor: '_Tuple2', _0: v0, _1: v1};
-						}),
-					options)));
-	});
-var _user$project$Extra$takeFirstText = function (listOfStrings) {
-	return A2(
-		_elm_lang$core$Maybe$withDefault,
-		'',
-		_elm_lang$core$List$head(listOfStrings));
-};
-var _user$project$Extra$appendNumberToBeginningOfString = F2(
-	function (string, maybeA) {
-		var beginningOfString = _elm_lang$core$String$toLower(
-			A2(
-				_elm_lang$core$String$left,
-				8,
-				_elm_lang$core$String$trim(string)));
-		var _p4 = maybeA;
-		if (_p4.ctor === 'Nothing') {
-			return beginningOfString;
-		} else {
-			return A2(
-				_elm_lang$core$Basics_ops['++'],
-				beginningOfString,
-				_elm_lang$core$Basics$toString(_p4._0));
-		}
-	});
-var _user$project$Extra$optionNameToOrdinal = F2(
-	function (optionName, options) {
-		return _elm_lang$core$List$head(
-			A2(
-				_elm_lang$core$List$map,
-				function (_p5) {
-					var _p6 = _p5;
-					return _p6._0;
-				},
-				A2(
-					_elm_lang$core$List$filter,
-					function (_p7) {
-						var _p8 = _p7;
-						return A2(_elm_lang$core$String$startsWith, _p8._1, optionName);
-					},
-					A2(
-						_elm_lang$core$List$indexedMap,
-						F2(
-							function (v0, v1) {
-								return {ctor: '_Tuple2', _0: v0, _1: v1};
-							}),
-						options))));
-	});
 
 var _user$project$EditBoxBuilder$buildAreaText = function (stringList) {
 	return function (s) {
@@ -10125,7 +10102,7 @@ var _user$project$EditBoxBuilder$buildEditBoxQuestion = function (question) {
 		});
 };
 
-var _user$project$JsonImporter$sampleQuestionJson = '\n    { \"uid\" : 1001\n    , \"title\" : \"Sample Title\"\n    , \"type\" : \"dropdown\"\n    , \"saveAction\" : \"\"\n    , \"options\" : \n        [ \"PAN|American\"\n        , \"SIN|Gringo\"\n        ]\n    , \"actions\" : \n      [ \n        [\n          { \"action\" : \"AddQuestion\"\n          , \"number\" : 1002\n          } \n          , \n          { \"action\" : \"RemoveQuestion\"\n          , \"number\" : 1003\n          }\n        ]\n        , \n        [\n          { \"action\" : \"RemoveQuestion\"\n          , \"number\" : 1002\n          }\n          , \n          { \"action\" : \"AddQuestion\"\n          , \"number\" : 1003\n          }\n        ] \n      ]\n    , \"childQuestions\" : []\n    }\n  ';
+var _user$project$JsonImporter$sampleQuestionJson = '\n    { \"uid\" : 1001\n    , \"title\" : \"Sample Title\"\n    , \"type\" : \"dropdown\"\n    , \"saveAction\" : \"\"\n    , \"options\" : \n        [ \"American\"\n        , \"Gambino\"\n        ]\n    , \"actions\" : \n      [ \n        [\n          { \"action\" : \"AddQuestion\"\n          , \"number\" : 1002\n          } \n          , \n          { \"action\" : \"RemoveQuestion\"\n          , \"number\" : 1003\n          }\n        ]\n        , \n        [\n          { \"action\" : \"RemoveQuestion\"\n          , \"number\" : 1002\n          }\n          , \n          { \"action\" : \"AddQuestion\"\n          , \"number\" : 1003\n          }\n        ] \n      ]\n    , \"childQuestions\" : []\n    }\n  ';
 var _user$project$JsonImporter$decodeSaveAction = function (string) {
 	var _p0 = _elm_lang$core$String$toLower(string);
 	if (_p0 === 'savetext') {
@@ -10425,6 +10402,10 @@ var _user$project$Update$updateWithAction = F2(
 							},
 							model.questionList)
 					});
+			case 'Print':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{buildDoc: !model.buildDoc});
 			default:
 				return _elm_lang$core$Native_Utils.update(
 					model,
@@ -10492,87 +10473,6 @@ var _user$project$MarkdownBuilder$buildMarkdown = function (question) {
 			question.text));
 };
 
-var _user$project$TextInputBuilder$buildTextInputQuestion = function (question) {
-	var placeholderText = _user$project$Extra$takeFirstText(
-		A2(_elm_lang$core$List$drop, 1, question.text));
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('question'),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html_Attributes$attribute,
-					'uuid',
-					_elm_lang$core$Basics$toString(question.uuid)),
-				_1: {ctor: '[]'}
-			}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('question-title'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(question.title),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('question-description'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_user$project$Extra$takeFirstText(question.text)),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$form,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class(_user$project$CssTranslation$css.form),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$input,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('text'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class(_user$project$CssTranslation$css.form),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$placeholder(placeholderText),
-											_1: {ctor: '[]'}
-										}
-									}
-								},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
-			}
-		});
-};
-
 var _user$project$RadioButtonBuilder$listOfRadioButtons = function (question) {
 	var orderToActions = F2(
 		function (actions, $int) {
@@ -10587,36 +10487,29 @@ var _user$project$RadioButtonBuilder$listOfRadioButtons = function (question) {
 	var valueOrder = F2(
 		function (value, options) {
 			return A2(
-				_elm_lang$core$Maybe$withDefault,
-				0,
-				_elm_lang$core$List$head(
+				_elm_lang$core$List$map,
+				_elm_lang$core$Tuple$first,
+				A2(
+					_elm_lang$core$List$filter,
+					function (_p0) {
+						var _p1 = _p0;
+						return A2(_elm_lang$core$String$startsWith, _p1._1, value);
+					},
 					A2(
-						_elm_lang$core$List$map,
-						function (_p0) {
-							var _p1 = _p0;
-							return _p1._0;
-						},
-						A2(
-							_elm_lang$core$List$filter,
-							function (_p2) {
-								var _p3 = _p2;
-								return A2(_elm_lang$core$String$startsWith, _p3._1, value);
-							},
-							A2(
-								_elm_lang$core$List$indexedMap,
-								F2(
-									function (v0, v1) {
-										return {ctor: '_Tuple2', _0: v0, _1: v1};
-									}),
-								options)))));
+						_elm_lang$core$List$indexedMap,
+						F2(
+							function (v0, v1) {
+								return {ctor: '_Tuple2', _0: v0, _1: v1};
+							}),
+						options)));
 		});
+	var actionList = function (value) {
+		return A2(
+			_elm_lang$core$List$concatMap,
+			orderToActions(question.actions),
+			A2(valueOrder, value, question.options));
+	};
 	var valueToActions = function (value) {
-		var actionList = function (v) {
-			return A2(
-				orderToActions,
-				question.actions,
-				A2(valueOrder, v, question.options));
-		};
 		return _elm_lang$core$Json_Decode$succeed(
 			actionList(value));
 	};
@@ -10773,21 +10666,23 @@ var _user$project$RadioButtonBuilder$buildRadioButtonQuestion = function (questi
 		});
 };
 
-var _user$project$View$viewQuestionItem = function (questionRecord) {
-	var _p0 = questionRecord.questionType;
+var _user$project$View$viewQuestionItem = function (question) {
+	var _p0 = question.questionType;
 	switch (_p0.ctor) {
 		case 'DropDown':
-			return _user$project$DropDownBuilder$buildDropDownQuestion(questionRecord);
+			return _user$project$DropDownBuilder$buildDropDownQuestion(question);
 		case 'Markdown':
-			return _user$project$MarkdownBuilder$buildMarkdown(questionRecord);
+			return _user$project$MarkdownBuilder$buildMarkdown(question);
 		case 'CheckBox':
-			return _user$project$CheckBoxBuilder$buildCheckboxQuestion(questionRecord);
+			return _user$project$CheckBoxBuilder$buildCheckboxQuestion(question);
 		case 'EditBox':
-			return _user$project$EditBoxBuilder$buildEditBoxQuestion(questionRecord);
+			return _user$project$EditBoxBuilder$buildEditBoxQuestion(question);
 		case 'TextBox':
-			return A2(_user$project$EditBoxBuilder$buildTextAreaQuestion, false, questionRecord);
+			return A2(_user$project$EditBoxBuilder$buildTextAreaQuestion, false, question);
 		case 'RadioButton':
-			return _user$project$RadioButtonBuilder$buildRadioButtonQuestion(questionRecord);
+			return _user$project$RadioButtonBuilder$buildRadioButtonQuestion(question);
+		case 'Button':
+			return _user$project$ButtonBuilder$buildButton(question);
 		case 'SubHeading':
 			return A2(
 				_elm_lang$html$Html$h2,
@@ -10798,7 +10693,7 @@ var _user$project$View$viewQuestionItem = function (questionRecord) {
 				},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(questionRecord.title),
+					_0: _elm_lang$html$Html$text(question.title),
 					_1: {ctor: '[]'}
 				});
 		default:
@@ -10812,8 +10707,56 @@ var _user$project$View$viewQuestionItem = function (questionRecord) {
 				});
 	}
 };
-var _user$project$View$viewQuestionList = F2(
-	function (allQuestions, questions) {
+var _user$project$View$viewSaveQuestion = function (question) {
+	var _p1 = question.saveAction;
+	switch (_p1.ctor) {
+		case 'NoSave':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{ctor: '[]'});
+		case 'SaveAll':
+			return _user$project$View$viewQuestionItem(question);
+		case 'SaveText':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h4,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(question.title),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							_user$project$EditBoxBuilder$buildContentParrographs(question.options)),
+						_1: {ctor: '[]'}
+					}
+				});
+		default:
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{ctor: '[]'});
+	}
+};
+var _user$project$View$viewQuestionItemFunction = function (buildDoc) {
+	var _p2 = buildDoc;
+	if (_p2 === false) {
+		return _user$project$View$viewQuestionItem;
+	} else {
+		return _user$project$View$viewSaveQuestion;
+	}
+};
+var _user$project$View$viewQuestionList = F3(
+	function (allQuestions, questions, buildDoc) {
 		var partialQuestions = A2(
 			_elm_lang$core$List$filter,
 			function (q) {
@@ -10822,7 +10765,7 @@ var _user$project$View$viewQuestionList = F2(
 			allQuestions);
 		return A2(
 			_elm_lang$core$List$map,
-			_user$project$View$viewQuestionItem,
+			_user$project$View$viewQuestionItemFunction(buildDoc),
 			_elm_lang$core$List$concat(
 				A2(
 					_elm_lang$core$List$map,
@@ -10930,7 +10873,7 @@ var _user$project$View$view = function (model) {
 									_0: _elm_lang$html$Html_Attributes$class(_user$project$CssTranslation$css.large_column),
 									_1: {ctor: '[]'}
 								},
-								A2(_user$project$View$viewQuestionList, model.questionList, model.questionsInPage)),
+								A3(_user$project$View$viewQuestionList, model.questionList, model.questionsInPage, model.buildDoc)),
 							_1: {
 								ctor: '::',
 								_0: A2(
@@ -10951,6 +10894,7 @@ var _user$project$View$view = function (model) {
 };
 
 var _user$project$Main$processFlags = function (flag) {
+	var initialBuildDocStatus = false;
 	var captureError = function (result) {
 		var _p0 = result;
 		if (_p0.ctor === 'Ok') {
@@ -10979,14 +10923,26 @@ var _user$project$Main$processFlags = function (flag) {
 		_elm_lang$core$Result$withDefault,
 		{ctor: '[]'},
 		listOfQuestionsOnPageResult);
-	var initialModel = A3(_user$project$Model$Model, initialAlerts, initialQuestionsInPage, initialQuestionsList);
+	var initialModel = A4(_user$project$Model$Model, initialAlerts, initialBuildDocStatus, initialQuestionsInPage, initialQuestionsList);
 	return {ctor: '_Tuple2', _0: initialModel, _1: _elm_lang$core$Platform_Cmd$none};
 };
 var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
-var _user$project$Main$main = _elm_lang$html$Html$beginnerProgram(
-	{model: _user$project$Model$model, view: _user$project$View$view, update: _user$project$Update$update})();
+var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
+	{init: _user$project$Main$processFlags, update: _user$project$Update$updateWithFlags, subscriptions: _user$project$Main$subscriptions, view: _user$project$View$view})(
+	A2(
+		_elm_lang$core$Json_Decode$andThen,
+		function (l) {
+			return A2(
+				_elm_lang$core$Json_Decode$andThen,
+				function (q) {
+					return _elm_lang$core$Json_Decode$succeed(
+						{l: l, q: q});
+				},
+				A2(_elm_lang$core$Json_Decode$field, 'q', _elm_lang$core$Json_Decode$string));
+		},
+		A2(_elm_lang$core$Json_Decode$field, 'l', _elm_lang$core$Json_Decode$string)));
 var _user$project$Main$Flag = F2(
 	function (a, b) {
 		return {l: a, q: b};
