@@ -68,11 +68,12 @@ initialModel : Model
 initialModel = 
   { alertMessages = [ "Error: bad robot", "Error: Really Bad Robot"]
   , buildDoc = False 
-  , questionsInPage = [110, 100, 1001, 1002, 301, 200]  -- this will have to be expanded w/ the concept of pages later
+  , questionsInPage = [1000]  -- this will have to be expanded w/ the concept of pages later
   , questionList =
     [ --QuestionRecord 1001 "TextInput Q" ["go on living", "iZombie ok", "fine"] TextInput None [] [] []
     --, QuestionRecord 1002 "EditBox" [] EditBox NoSave ["This \n are \n monsters."] [] []
-     QuestionRecord 100 "Choose your Class" ["Choose from the follwing list:"] DropDown None [
+    QuestionRecord 1000 "table ex" ["table desc"] Table None ["Con", "Dex", "Str", "Int", "Wis", "Cha"] [] []
+    , QuestionRecord 100 "Choose your Class" ["Choose from the follwing list:"] DropDown None [
         "NONE|Please select one:", "RNGR|Ranger", "FTR|Fighter", "THF|Thief"
         ] [ [ RmQuestion 101, RmQuestion 102, RmQuestion 103, RmQuestion 104, RmQuestion 106, RmQuestion 108, RmQuestion 201, RmQuestion 202, RmQuestion 203 ]
           , [ AddQuestion 102, AddQuestion 101, RmQuestion 106, RmQuestion 108, RmQuestion 103, RmQuestion 104, AddQuestion 201, RmQuestion 202, RmQuestion 203 ]

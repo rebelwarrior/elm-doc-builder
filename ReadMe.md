@@ -82,13 +82,15 @@ Also where is the readme for the quesitons?
 TODO:
 1. [x] Implement Save Actions to Document Creation 
 1. [x] Simplify DropDown based on Checkboxex/Radio button pattern 
-4. [] Implement Table (important)
-1. [] Fully implement jekyll theme pattern
-2. [] Fix fade easing of alerts without using js. (if possible)
-3. [] Implement Heading (reimplementation of Subheading)
-5. [] Implement TextInput (presently incomplete)
-6. [] Implement NotAQuestion (also rename) 
-7. [] Verify Accessibility tags
+4. [_] Implement Table (important)
+5. [_] Refactor Text Input maybe add validations?
+1. [_] Fully implement jekyll theme pattern (low)
+2. [_] Fix fade easing of alerts without using js. (if possible)
+3. [_] Implement Heading (reimplementation of Subheading)
+6. [_] Implement NotAQuestion (also rename) 
+7. [_] Verify Accessibility tags
+8. [_] Add validation 
+9. [_] Use consistent css for question title and question description 
 
 Key Technical problems:
 1. Use a List of Msg rather than just one in 

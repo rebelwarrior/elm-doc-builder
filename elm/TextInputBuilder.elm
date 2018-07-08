@@ -1,6 +1,7 @@
 module TextInputBuilder exposing (buildTextInputQuestion)
 
 -- Not Implemented (well)
+-- Needs Refactoring
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
