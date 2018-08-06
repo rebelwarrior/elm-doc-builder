@@ -9,3 +9,11 @@ require 'bundler/gem_tasks'
 #   t.verbose = false
 #   t.warning = false
 # end
+
+
+def build_for_demo 
+    `elm make elm/Main.elm --output assets/js/elm.js`
+    `minify assets/js/elm.js assets/js/elm.min.js`
+    FileUtil.cp "assets/js/elm.js" "../demo-elm-doc-builder/assets/js/elm.js"
+    FileUtil.cp "assets/js/elm.min.js" "../demo-elm-doc-builder/assets/js/elm.min.js"
+end
