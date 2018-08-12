@@ -29,7 +29,6 @@ main =
 --     Html.programWithFlags
 --         { init = processFlags
 --         , update = Update.updateWithFlags
---         -- , model = Model.model
 --         , subscriptions = subscriptions
 --         , view = View.view
 --         }

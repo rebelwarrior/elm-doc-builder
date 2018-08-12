@@ -28,6 +28,7 @@ decodeAction =
           "removequestion"   -> succeed (Model.RmQuestion number)
           "addquestionbelow" -> succeed (Model.AddQuestionBelow number belowNumber) 
           "replacealloptions"-> succeed (Model.ReplaceAllOptions number listOptions)
+          "print"            -> succeed (Model.Print)
           _                  -> fail ("Unable to decode action: " ++ action)
 
   in 
@@ -74,6 +75,7 @@ decodeSaveAction : String -> Decoder Model.SaveAction
 decodeSaveAction string =
     case (String.toLower string) of 
     "savetext" -> succeed Model.SaveText
+    "saveall" -> succeed Model.SaveAll
     _          -> succeed Model.None
 
 

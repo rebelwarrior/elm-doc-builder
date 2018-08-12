@@ -34,23 +34,23 @@ view model =
 viewH1 : Html msg
 viewH1 =
     div [ class css.header ]
-        [ h1 []
-            [ a
-                [ href "#/"
-                , style [ ( "color", "inherit" ), ( "text-decoration", "inherit" ) ]
-                ]
-                [ text "Elm Document Builder" ]
+        [ h1 [] [] ]
+            -- [ a
+            --     [ href "#/"
+            --     , style [ ( "color", "inherit" ), ( "text-decoration", "inherit" ) ]
+            --     ]
+            --     [ text "Elm Document Builder" ]
 
-            -- Title can be later set w/ a pages object
-            ]
-        ]
+            -- -- Title can be later set w/ a pages object
+            -- ]
+
 
 
 viewFooter : Html msg
 viewFooter =
     footer []
         [ a [ href "https://www.github.com/rebelwarrior" ]
-            [ text "coded with 💚 by rebelwarrior" ]
+            [ text "Elm Document Builder coded with 💚 by rebelwarrior" ]
         ]
 
 

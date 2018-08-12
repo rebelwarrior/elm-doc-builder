@@ -12,9 +12,9 @@ type QuestionType
     | Button
     | Table
     | SubHeading
-    | TextInput -- Rename 
+    | TextInput  
     | Image
-    | NotAQuestion -- Rename
+    | NotAQuestion -- Rename to SimpleText
     | ErrorType
 
 type alias QuestionRecord =
@@ -68,7 +68,7 @@ initialModel : Model
 initialModel = 
   { alertMessages = [ "Error: bad robot", "Error: Really Bad Robot"]
   , buildDoc = False 
-  , questionsInPage = [1000]  -- this will have to be expanded w/ the concept of pages later
+  , questionsInPage = [1000, 200]  -- this will have to be expanded w/ the concept of pages later
   , questionList =
     [ --QuestionRecord 1001 "TextInput Q" ["go on living", "iZombie ok", "fine"] TextInput None [] [] []
     --, QuestionRecord 1002 "EditBox" [] EditBox NoSave ["This \n are \n monsters."] [] []

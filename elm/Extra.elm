@@ -1,5 +1,6 @@
 module Extra exposing (..)
 
+
 {- For Taking the Description of Questions -}
 takeFirstText : List String -> String
 takeFirstText listOfStrings =
@@ -32,9 +33,7 @@ firstListOfNestedList list =
 
 
 
--- Can be used to append numbers to selections.
-
-
+{- Can be used to append numbers to selections. -}
 appendNumberToBeginningOfString : String -> Int -> Maybe a -> String
 appendNumberToBeginningOfString string charsLimit maybeA =
     let
