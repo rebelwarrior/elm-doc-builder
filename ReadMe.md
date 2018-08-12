@@ -1,19 +1,21 @@
 # Elm Document Builder
 
 Problem to solve: 
-As a User I want to easily modify a set of questions that the program uses to produce a document. 
+As a User I want to easily modify a set of questions on a questionnaire that the program uses to produce a document. 
 
 Approach to solve it:
 Make the program's logic and content be on a separate JSON file that the Elm program slurps at startup and can interpret, including its logic. 
 
 ## Demo
+The Elm program compiles to JavaScript which can then be hosted with Jekyll on GitHub directly.
+
 Check out the live demo here: https://rebelwarrior.github.io/demo-elm-doc-builder/
 
 Demo Repository here: 
 https://github.com/rebelwarrior/demo-elm-doc-builder
 
 ## Schema
-The program expects two json files: one with the questions in page (simple array of interger) and the other with a list of all the questions. 
+The program expects two json files: one with the questions in page (simple array of intergers) and the other with a list of all the questions. 
 
 The list of questions is an array containing a "QuestionRecord" object. Each "QuestionRecord" has the following properties:
 
@@ -62,8 +64,8 @@ Depending which action the "optional" parameters are required or ignored.
 | "addquestion"       | "number"            | adds question (number) at bottom of page
 | "removequestion"    | "number"            | removes question from page
 | "addquestionbelow"  | "number", "below"   | adds question (number) below question (below)
-| "replacealloptions" | "number", "options" | replaces all the options of a question (number) |
-| "print" | n/a | toggles save action of all questions | 
+| "replacealloptions" | "number", "options" | replaces all the options of a question (number) 
+| "print"             | n/a                 | toggles save action of all questions 
 
 List of __save actions__: 
 ```javascript 
@@ -72,9 +74,9 @@ List of __save actions__:
 
 | save action | what it does |
 | --- | --- |
-| "savetext" | Keeps the text of the question. |
-| "saveall" | Keeps the whole question. | 
-| "none" | Does NOT keep any part of the question. | 
+| "savetext"  | Keeps the text of the question. 
+| "saveall"   | Keeps the whole question. 
+| "none"      | Does NOT keep any part of the question. 
 
 ## Usage
 
