@@ -51,11 +51,12 @@ Each question may have "Action" objects:
 Depending which action the "optional" parameters are required or ignored. 
 
 | action | required | what it does |
-| --- | --- |
+| --- | --- | --- |
 | "addquestion"       | "number"            | adds question (number) at bottom of page
 | "removequestion"    | "number"            | removes question from page
 | "addquestionbelow"  | "number", "below"   | adds question (number) below question (below)
-| "replacealloptions" | "number", "options" | replaces all the options of a question (number)
+| "replacealloptions" | "number", "options" | replaces all the options of a question (number) |
+| "print" | n/a | toggles save action of all questions | 
 
 
 
