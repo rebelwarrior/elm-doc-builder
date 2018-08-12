@@ -33,11 +33,12 @@ The list of questions is an array containing a "QuestionRecord" object. Each "Qu
 | "actions"        | list of actions associated with each option of the question record
 | "childQuestions" | list of question that will be removed if this question is removed (this is not recursive)
 
-list of available types 
+List of available __types__: 
 ```javascript
 [ "checkbox", "radio", "dropdown", "markdown", "editbox", "textbox", 
 "textinput", "textarea", "table", "button", "subheading", "notaquestion" ]
 ```
+
 Each question may have "Action" objects:
 
 | required or optional | property | type |
@@ -58,7 +59,16 @@ Depending which action the "optional" parameters are required or ignored.
 | "replacealloptions" | "number", "options" | replaces all the options of a question (number) |
 | "print" | n/a | toggles save action of all questions | 
 
+List of __save actions__: 
+```javascript 
+["savetext", "saveall", "none"]
+```
 
+| save action | what it does |
+| --- | --- |
+| "savetext" | Keeps the text of the question. |
+| "saveall" | Keeps the whole question. | 
+| "none" | Does NOT keep any part of the question. | 
 
 ## Usage
 

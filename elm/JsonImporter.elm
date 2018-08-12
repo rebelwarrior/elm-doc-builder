@@ -75,7 +75,7 @@ decodeSaveAction : String -> Decoder Model.SaveAction
 decodeSaveAction string =
     case (String.toLower string) of 
     "savetext" -> succeed Model.SaveText
-    "saveall" -> succeed Model.SaveAll
+    "saveall"  -> succeed Model.SaveAll
     _          -> succeed Model.None
 
 
