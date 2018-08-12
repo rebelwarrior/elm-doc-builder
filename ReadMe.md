@@ -6,6 +6,12 @@ As a User I want to easily modify a set of questions that the program uses to pr
 Approach to solve it:
 Make the program's logic and content be on a separate JSON file that the Elm program slurps at startup and can interpret, including its logic. 
 
+## Demo
+Check out the live demo here: https://rebelwarrior.github.io/demo-elm-doc-builder/
+
+Demo Repository here: 
+https://github.com/rebelwarrior/demo-elm-doc-builder
+
 ## Schema
 The program expects two json files: one with the questions in page (simple array of interger) and the other with a list of all the questions. 
 
@@ -103,7 +109,7 @@ TODO:
 8. [_] Add validation 
 9. [_] Use consistent css for question title and question description 
 
-Key Technical problems:
+Key Technical problems that had to be overcome:
 1. Use a List of Msg rather than just one in 
 2. How to sort the list of questions in order (View)
 3. How to build a Dropdown
