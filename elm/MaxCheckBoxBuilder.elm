@@ -1,4 +1,4 @@
-module CheckBoxBuilder exposing (buildCheckboxQuestion)
+module MaxCheckBoxBuilder exposing (buildCheckboxQuestion)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)

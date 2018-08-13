@@ -67,7 +67,9 @@ listOfRadioButtons question =
                     , on "change" valueDecoder -- This is a Json Decoder I need a new one that spits out a QuestionAction
                     ]
                     []
-                , label [ for optionName ] [ text optionName ]
+                , label [ for optionName 
+                    , style [("padding-left", "5px")]
+                    ] [ text optionName ]
                 ]
     in
         question.options

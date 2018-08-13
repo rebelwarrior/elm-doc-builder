@@ -6,8 +6,8 @@ var questions = JSON.stringify(
         , "type": "dropdown"
         , "saveAction": ""
         , "options":
-            ["PAN|American"
-                , "SIN|Gringo"
+            ["One"
+                , "Two"
             ]
         , "actions":
             [

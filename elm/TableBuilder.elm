@@ -1,6 +1,7 @@
 module TableBuilder exposing (..)
-{- Uses CSS Grid to give a flexible table. 
-    Second item on question.text sets columns uses 3 as default 
+
+{- Uses CSS Grid to give a flexible table.
+   Second item on question.text sets columns uses 3 as default
 -}
 
 import CssTranslation exposing (css)
@@ -13,31 +14,44 @@ import Model
 buildTable : Model.QuestionRecord -> Html.Html msg
 buildTable question =
     let
-        title = question.title
-        description = Extra.takeFirstText question.text
-        lableText = [ "" ]
-        placeholderText = [ "" ]
-        initialState = question.options
-        columnsNumber = 
+        title =
+            question.title
+
+        description =
+            Extra.takeFirstText question.text
+
+        lableText =
+            [ "" ]
+
+        placeholderText =
+            [ "" ]
+
+        initialState =
+            question.options
+
+        columnsNumber =
             Extra.takeSecondTextAsInt question.text |> Result.withDefault 3
     in
-        div []
-            [ h3 [] [ Html.text question.title ]
-            , div [] [ Html.text description ]
-            , div
-                [ class "container"
-                , style (cssGridStyle columnsNumber)
-                ]
-                (List.indexedMap itemBuilder question.options)
+    div []
+        [ h3 [] [ Html.text question.title ]
+        , div [] [ Html.text description ]
+        , div
+            [ class "container"
+            , style (cssGridStyle columnsNumber)
             ]
+            (List.indexedMap itemBuilder question.options)
+        ]
 
 
 cssGridStyle : Int -> List ( String, String )
 cssGridStyle columns =
     [ ( "display", "grid" )
-    , ( "grid-template-columns", (String.repeat columns "150px ") )
-    , ("background-color", "#eee")
-    , ("grid-gap", "15px")
+    , ( "grid-template-columns", String.repeat columns "150px " )
+    , ( "background-color", "#eee" )
+    , ( "grid-gap", "15px" )
+    , ( "margin", "10px" )
+    , ( "padding-bottom", "10px" )
+    , ( "padding-top", "10px" )
     ]
 
 
@@ -55,24 +69,28 @@ itemBuilder i content =
 inputBoxBuilder : String -> Html.Html msg
 inputBoxBuilder content =
     let
-        labelText = content
-        placeholderText = content
+        labelText =
+            content
+
+        placeholderText =
+            content
     in
-        Html.form
-            [ class "form-inline" ]
-            [ label
-                [ for labelText
-                , class "sr-only"
-                ]
-                [ Html.text labelText ]
-            , input
-                [ type_ "text"
-                , class "form-control"
-                , id labelText
-                , placeholder placeholderText
-                ]
-                []
+    Html.form
+        [ class "form-inline" ]
+        [ label
+            [ for labelText
+            , class "sr-only"
             ]
+            [ Html.text labelText ]
+        , input
+            [ type_ "text"
+            , class "form-control"
+            , style [("width", "150px")]
+            , id labelText
+            , placeholder placeholderText
+            ]
+            []
+        ]
 
 
 
