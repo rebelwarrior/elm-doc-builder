@@ -17,13 +17,18 @@
 
 </head>
 <body> 
+    <div id="elm"></div>
     <script>
         // Elm.Main.fullscreen();
-        Elm.Main.fullscreen({q: questions, l: listOfQuestions });
+        // Elm.Main.fullscreen(flags: {q: questions, l: listOfQuestions });
         // var Elm = require('javascript/main.js');
         // var node = document.getElementById('elm-app');
         // var app = Elm.Main.embed(node);
         // var app = Elm.Main.embed(node, {q: questions, p: pages});
+        var app = Elm.Main.init({
+                node: document.getElementById('elm'),
+                flags: { q: questions, l: listOfQuestions }
+            });
     </script>
 </body>
 
