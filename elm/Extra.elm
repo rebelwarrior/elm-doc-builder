@@ -1,6 +1,7 @@
 module Extra exposing (..)
 
 
+
 {- For Taking the Description of Questions -}
 takeFirstText : List String -> String
 takeFirstText listOfStrings =
@@ -18,6 +19,7 @@ takeSecondTextAsInt listOfStrings =
         |> List.head
         |> Maybe.withDefault ""
         |> String.toInt
+        |> Result.fromMaybe "UnableToCovert to Integer"
 
 
 
@@ -34,8 +36,8 @@ firstListOfNestedList list =
 
 
 {- Can be used to append numbers to selections. -}
-appendNumberToBeginningOfString : String -> Int -> Maybe a -> String
-appendNumberToBeginningOfString string charsLimit maybeA =
+appendNumberToBeginningOfString : String -> Int -> Maybe String -> String
+appendNumberToBeginningOfString string charsLimit maybeString =
     let
         beginningOfString =
             -- String.toLower (String.left 8 (String.trim string))
@@ -44,9 +46,9 @@ appendNumberToBeginningOfString string charsLimit maybeA =
                 |> String.left charsLimit
                 |> String.toLower
     in
-    case maybeA of
+    case maybeString of
         Nothing ->
             beginningOfString
 
         Just a ->
-            beginningOfString ++ toString a
+            beginningOfString ++ a

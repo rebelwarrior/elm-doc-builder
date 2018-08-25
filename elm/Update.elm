@@ -89,7 +89,7 @@ updateWithAction msg model =
       _ -> 
         { model | alertMessages =  
           model.alertMessages
-          |> (::) ("Error: Unable to Process, Unknown Type." ++ (toString msg) )  
+          |> (::) ("Error: Unable to Process, Unknown Type." )  
         }
         
 

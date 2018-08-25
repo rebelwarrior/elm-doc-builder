@@ -28,7 +28,7 @@ buildDropDownQuestion question =
         valueOrder : String -> List String -> List Int
         valueOrder value options =
             options
-                |> List.indexedMap (,)
+                |> List.indexedMap Tuple.pair
                 |> List.filter (\( i, optionLongName ) -> String.startsWith value optionLongName)
                 |> List.map Tuple.first
 

@@ -13,7 +13,7 @@ import Model
 buildRadioButtonQuestion : Model.QuestionRecord -> Html (List Model.QuestionAction)
 buildRadioButtonQuestion question =
     div [ class css.question ]
-        [ div [ class css.radiobuttons, attribute "data-uuid" (toString question.uuid) ] []
+        [ div [ class css.radiobuttons, attribute "data-uuid" (String.fromInt question.uuid) ] []
         , div [ class "question-text" ] [ text question.title ]
         , div [ class "question-description" ] [ text (takeFirstText question.text) ]
         , fieldset [ class css.fieldset_inputs ]
@@ -29,8 +29,8 @@ listOfRadioButtons question =
         -- ## Decoder below:
         actionList : String -> List Model.QuestionAction
         actionList value =
-            (valueOrder value question.options)
-                |> List.concatMap (orderToActions question.actions) 
+            valueOrder value question.options
+                |> List.concatMap (orderToActions question.actions)
 
         valueToActions : String -> Json.Decode.Decoder (List Model.QuestionAction)
         valueToActions value =
@@ -41,7 +41,7 @@ listOfRadioButtons question =
         valueOrder : String -> List String -> List Int
         valueOrder value options =
             options
-                |> List.indexedMap (,)
+                |> List.indexedMap Tuple.pair
                 |> List.filter (\( i, v ) -> String.startsWith v value)
                 |> List.map Tuple.first
 
@@ -67,10 +67,12 @@ listOfRadioButtons question =
                     , on "change" valueDecoder -- This is a Json Decoder I need a new one that spits out a QuestionAction
                     ]
                     []
-                , label [ for optionName 
-                    , style [("padding-left", "5px")]
-                    ] [ text optionName ]
+                , label
+                    [ for optionName
+                    , style  "padding-left" "5px"
+                    ]
+                    [ text optionName ]
                 ]
     in
-        question.options
-            |> List.indexedMap radioButton
+    question.options
+        |> List.indexedMap radioButton

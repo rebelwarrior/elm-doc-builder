@@ -1,82 +1,98 @@
 module JsonImporter exposing (..)
 
 
-import Json.Decode exposing (..)
+import Json.Decode as D
 import Json.Decode.Pipeline exposing (..)
 import Model
 
 
 importQuestionsJson : String -> Result String (List Model.QuestionRecord)
 importQuestionsJson jsonString =
-  decodeString decodeListOfQuestions jsonString
+  let
+    result : Result D.Error (List Model.QuestionRecord)
+    result = D.decodeString decodeListOfQuestions jsonString
+  in 
+    case result of 
+      Err m -> Err (D.errorToString m) 
+      Ok r  -> Ok r
 
 importQuestionInPage : String -> Result String (List Int)
 importQuestionInPage jsonString =
-  decodeString (list int) jsonString
+  let 
+    result : Result D.Error (List Int)
+    result = D.decodeString (D.list D.int) jsonString
+  in 
+    case result of 
+      Err m -> Err (D.errorToString m) 
+      Ok r  -> Ok r 
 
-decodeListOfQuestions : Json.Decode.Decoder (List Model.QuestionRecord)
+decodeListOfQuestions : D.Decoder (List Model.QuestionRecord)
 decodeListOfQuestions =
-   list decodeQuestion 
+   D.list questionDecoder 
 
-decodeAction : Json.Decode.Decoder Model.QuestionAction  
+decodeAction : D.Decoder Model.QuestionAction  
 decodeAction = 
   let 
-    toQuestionAction : String -> Int -> Int -> String -> List String -> Json.Decode.Decoder Model.QuestionAction
+    toQuestionAction : String -> Int -> Int -> String -> List String -> D.Decoder Model.QuestionAction
     toQuestionAction action number belowNumber msg listOptions =
       case (String.toLower action) of 
-          "addquestion"      -> succeed (Model.AddQuestion number)
-          "removequestion"   -> succeed (Model.RmQuestion number)
-          "addquestionbelow" -> succeed (Model.AddQuestionBelow number belowNumber) 
-          "replacealloptions"-> succeed (Model.ReplaceAllOptions number listOptions)
-          "print"            -> succeed (Model.Print)
-          _                  -> fail ("Unable to decode action: " ++ action)
+          "addquestion"      -> D.succeed (Model.AddQuestion number)
+          "removequestion"   -> D.succeed (Model.RmQuestion number)
+          "addquestionbelow" -> D.succeed (Model.AddQuestionBelow number belowNumber) 
+          "replacealloptions"-> D.succeed (Model.ReplaceAllOptions number listOptions)
+          "print"            -> D.succeed (Model.Print)
+          _                  -> D.fail ("Unable to decode action: " ++ action)
 
   in 
-    decode toQuestionAction 
-      |> required "action" string 
-      |> optional "number" int 0
-      |> optional "below" int 0 
-      |> optional "message" string ""
-      |> optional "options" (list string) []
+    -- decode toQuestionAction 
+    D.succeed toQuestionAction
+      |> required "action" D.string 
+      |> optional "number" D.int 0
+      |> optional "below" D.int 0 
+      |> optional "message" D.string ""
+      |> optional "options" (D.list D.string) []
       |> resolve 
 
-questionTypeDecoder : String -> Json.Decode.Decoder Model.QuestionType 
+questionTypeDecoder : String -> D.Decoder Model.QuestionType 
 questionTypeDecoder string =
     case (String.toLower string) of
-      "checkbox"      -> succeed Model.CheckBox
-      "radio"         -> succeed Model.RadioButton
-      "dropdown"      -> succeed Model.DropDown
-      "markdown"      -> succeed Model.Markdown 
-      "editbox"       -> succeed Model.EditBox
-      "textbox"       -> succeed Model.TextBox
-      "textinput"     -> succeed Model.TextInput
-      "textarea"      -> succeed Model.TextArea
-      "table"         -> succeed Model.Table
-      "button"        -> succeed Model.Button
-      "subheading"    -> succeed Model.SubHeading
-      "notaquestion"  -> succeed Model.NotAQuestion
-      _               -> fail ("Value " ++ string ++ "Is not a question type.") -- Should this be Model.Error?
+      "checkbox"      -> D.succeed Model.CheckBox
+      "radio"         -> D.succeed Model.RadioButton
+      "dropdown"      -> D.succeed Model.DropDown
+      "markdown"      -> D.succeed Model.Markdown 
+      "editbox"       -> D.succeed Model.EditBox
+      "textbox"       -> D.succeed Model.TextBox
+      "textinput"     -> D.succeed Model.TextInput
+      "textarea"      -> D.succeed Model.TextArea
+      "table"         -> D.succeed Model.Table
+      "button"        -> D.succeed Model.Button
+      "subheading"    -> D.succeed Model.SubHeading
+      "notaquestion"  -> D.succeed Model.NotAQuestion
+      _               -> D.fail ("Value " ++ string ++ "Is not a question type.") -- Should this be Model.Error?
 
 
-decodeQuestion : Decoder Model.QuestionRecord 
-decodeQuestion =
-  decode Model.QuestionRecord
-    |> required "uid" int
-    |> required "title" string 
-    |> optional "text" (list string) []
-    |> required "type"  (andThen questionTypeDecoder string)
-    |> optional "saveAction" (andThen decodeSaveAction string) Model.None
-    |> optional "options" (list string) []
-    |> optional "actions" (list (list (decodeAction))) [] 
-    |> optional "childQuestions" (list int) []
+-- decodeQuestion : Decoder Model.QuestionRecord 
+-- decodeQuestion =
+--   decode Model.QuestionRecord
+questionDecoder : D.Decoder Model.QuestionRecord 
+questionDecoder =
+  D.succeed Model.QuestionRecord
+    |> required "uid" D.int
+    |> required "title" D.string 
+    |> optional "text" (D.list D.string) []
+    |> required "type"  (D.andThen questionTypeDecoder D.string)
+    |> optional "saveAction" (D.andThen decodeSaveAction D.string) Model.None
+    |> optional "options" (D.list D.string) []
+    |> optional "actions" (D.list (D.list (decodeAction))) [] 
+    |> optional "childQuestions" (D.list D.int) []
 
 
-decodeSaveAction : String -> Decoder Model.SaveAction
+decodeSaveAction : String -> D.Decoder Model.SaveAction
 decodeSaveAction string =
     case (String.toLower string) of 
-    "savetext" -> succeed Model.SaveText
-    "saveall"  -> succeed Model.SaveAll
-    _          -> succeed Model.None
+    "savetext" -> D.succeed Model.SaveText
+    "saveall"  -> D.succeed Model.SaveAll
+    _          -> D.succeed Model.None
 
 
 sampleQuestionJson : String
