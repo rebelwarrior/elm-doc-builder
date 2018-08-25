@@ -49,7 +49,7 @@ cssGridStyle columns =
     , ( "grid-template-columns", String.repeat columns "150px " )
     , ( "background-color", "#eee" )
     , ( "grid-gap", "15px" )
-    , ( "margin", "10px" )
+    , ( "margin", "5px" )
     , ( "padding-bottom", "10px" )
     , ( "padding-top", "10px" )
     ]

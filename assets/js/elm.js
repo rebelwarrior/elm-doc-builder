@@ -11133,8 +11133,20 @@ var _user$project$Main$processFlags = function (flag) {
 var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
-var _user$project$Main$main = _elm_lang$html$Html$beginnerProgram(
-	{model: _user$project$Model$model, view: _user$project$View$view, update: _user$project$Update$update})();
+var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
+	{init: _user$project$Main$processFlags, update: _user$project$Update$updateWithFlags, subscriptions: _user$project$Main$subscriptions, view: _user$project$View$view})(
+	A2(
+		_elm_lang$core$Json_Decode$andThen,
+		function (l) {
+			return A2(
+				_elm_lang$core$Json_Decode$andThen,
+				function (q) {
+					return _elm_lang$core$Json_Decode$succeed(
+						{l: l, q: q});
+				},
+				A2(_elm_lang$core$Json_Decode$field, 'q', _elm_lang$core$Json_Decode$string));
+		},
+		A2(_elm_lang$core$Json_Decode$field, 'l', _elm_lang$core$Json_Decode$string)));
 var _user$project$Main$Flag = F2(
 	function (a, b) {
 		return {l: a, q: b};
