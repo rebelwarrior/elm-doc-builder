@@ -1,10 +1,11 @@
 module Main exposing (..)
 
-import Html exposing (..)
-
+import Browser
 import Model
 import Update
 import View
+
+
 import JsonImporter exposing (importQuestionInPage, importQuestionsJson)
 
 
@@ -14,29 +15,33 @@ type alias Flag =
     }
 
 
+
 -- Beginner Program does not load json from _data
 -- Also change index.html
-main : Program Never Model.Model (List Model.QuestionAction)
+main : Program () Model.Model (List Model.QuestionAction)
 main =
-    Html.beginnerProgram
-        { model = Model.model
-        , view = View.view
+    Browser.sandbox
+        { init = Model.model
         , update = Update.update
+        , view = View.view
         }
+
+
 
 -- main : Program Flag Model.Model (List Model.QuestionAction)
 -- main =
---     Html.programWithFlags
+--     Browser.element
 --         { init = processFlags
+--         , view = View.view
 --         , update = Update.updateWithFlags
 --         , subscriptions = subscriptions
---         , view = View.view
 --         }
 
 
 subscriptions : Model.Model -> Sub msg
 subscriptions model =
     Sub.none
+
 
 
 processFlags : Flag -> ( Model.Model, Cmd msg )

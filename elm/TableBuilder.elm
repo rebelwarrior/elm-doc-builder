@@ -37,27 +37,21 @@ buildTable question =
         , div [] [ Html.text description ]
         , div
             [ class "container"
-            , style (cssGridStyle columnsNumber)
+            , style "display" "grid" 
+            , style "grid-template-columns" (String.repeat columnsNumber "150px ")
+            , style "background-color" "#eee" 
+            , style "grid-gap" "15px" 
+            , style "margin" "5px" 
+            , style "padding-bottom" "10px" 
+            , style "padding-top" "10px" 
             ]
             (List.indexedMap itemBuilder question.options)
         ]
 
 
-cssGridStyle : Int -> List ( String, String )
-cssGridStyle columns =
-    [ ( "display", "grid" )
-    , ( "grid-template-columns", String.repeat columns "150px " )
-    , ( "background-color", "#eee" )
-    , ( "grid-gap", "15px" )
-    , ( "margin", "10px" )
-    , ( "padding-bottom", "10px" )
-    , ( "padding-top", "10px" )
-    ]
-
-
 itemBuilder : Int -> String -> Html.Html msg
 itemBuilder i content =
-    div [ class ("item--" ++ toString i) ] [ inputBoxBuilder content ]
+    div [ class ("item--" ++ (String.fromInt i)) ] [ inputBoxBuilder content ]
 
 
 
@@ -85,7 +79,7 @@ inputBoxBuilder content =
         , input
             [ type_ "text"
             , class "form-control"
-            , style [("width", "150px")]
+            -- , style [ ( "width", "150px" ) ]
             , id labelText
             , placeholder placeholderText
             ]

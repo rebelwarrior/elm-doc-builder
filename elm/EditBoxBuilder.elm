@@ -1,4 +1,4 @@
-module EditBoxBuilder exposing (buildEditBoxQuestion, buildTextAreaQuestion, buildContentParrographs)
+module EditBoxBuilder exposing (buildContentParrographs, buildEditBoxQuestion, buildTextAreaQuestion)
 
 import CssTranslation exposing (css)
 import Extra exposing (takeFirstText)
@@ -10,7 +10,7 @@ import Model
 
 buildEditBoxQuestion : Model.QuestionRecord -> Html (List Model.QuestionAction)
 buildEditBoxQuestion question =
-    div [ attribute "data-uuid" (toString question.uuid) ]
+    div [ attribute "data-uuid" (String.fromInt question.uuid) ]
         [ div [ class "question-text" ] [ text question.title ]
         , div [ class "question-description" ] [ text (takeFirstText question.text) ]
         , div [ class "edit-box" ]
@@ -22,23 +22,29 @@ buildEditBoxQuestion question =
                 [ text css.edit_button ]
             , div
                 [ class "edit-content"
-                , style [ ( "border", "thin dashed black" ), ( "padding", "1rem" ) ]
+                , style "border" "thin dashed black"  
+                , style "padding" "1rem" 
                 ]
                 (buildContentParrographs question.options)
             ]
         ]
 
+
+
 -- this Function Can be extracted to Extra
+
+
 buildContentParrographs : List String -> List (Html msg)
 buildContentParrographs stringList =
     stringList
         |> List.concatMap (String.split "\n")
         |> List.map (\x -> p [] [ text x ])
 
+
 buildAreaText : List String -> List (Html msg)
 buildAreaText stringList =
-    stringList 
-        |> List.intersperse "\n" 
+    stringList
+        |> List.intersperse "\n"
         |> List.foldr (++) ""
         |> (\s -> [ text s ])
 
@@ -46,9 +52,9 @@ buildAreaText stringList =
 buildTextAreaQuestion : Bool -> Model.QuestionRecord -> Html (List Model.QuestionAction)
 buildTextAreaQuestion areaOnly question =
     let
-        onInputFn : String -> List Model.QuestionAction 
-        onInputFn string = 
-            List.singleton (Model.ReplaceAllOptions question.uuid [string])
+        onInputFn : String -> List Model.QuestionAction
+        onInputFn string =
+            List.singleton (Model.ReplaceAllOptions question.uuid [ string ])
 
         boxOrArea : Bool -> Html (List Model.QuestionAction)
         boxOrArea areaOnlyBool =
@@ -62,7 +68,7 @@ buildTextAreaQuestion areaOnly question =
                     ]
                     [ text css.done_button ]
     in
-    div [ attribute "data-uuid" (toString question.uuid) ]
+    div [ attribute "data-uuid" (String.fromInt question.uuid) ]
         [ div [ class "question-text" ] [ text question.title ]
         , div [ class "question-description" ] [ text (takeFirstText question.text) ]
         , boxOrArea areaOnly
@@ -70,9 +76,11 @@ buildTextAreaQuestion areaOnly question =
             [ textarea
                 [ class css.form_control
                 , attribute "rows" "10"
-                , style [ ( "border", "1px solid" ), ( "padding", "1rem" ) ]
+                , style "border" "1px solid"
+                , style "padding" "1rem" 
                 , spellcheck True
-                , (Html.Events.onInput onInputFn ) -- Triggers when ppl type 
+                , Html.Events.onInput onInputFn -- Triggers when ppl type
+
                 -- should collapse all the text into one string in the first option and save it in the model.
                 ]
                 (buildAreaText question.options)
