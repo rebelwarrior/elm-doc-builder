@@ -4,7 +4,7 @@ module TextInputBuilder exposing (buildTextInputQuestion)
 -- Needs Refactoring
 
 import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html.Attributes exposing (attribute, class, placeholder, type_)
 -- import Html.Events as Events exposing (onInput)
 import Model
 import Extra exposing (takeFirstText)
@@ -24,7 +24,7 @@ buildTextInputQuestion question =
           |> takeFirstText 
 
   in
-    div [ class "question", (attribute "uuid" (toString question.uuid)) ]
+    div [ class "question", (attribute "uuid" (String.fromInt question.uuid)) ]
         [ div [ class "question-title" ] [ text question.title  ]
         , div [ class "question-description" ] [ text (takeFirstText question.text) ]
         , Html.form [ class css.form ]

@@ -1,10 +1,10 @@
 module DropDownBuilder exposing (buildDropDownQuestion)
 
-import Array
+import Array exposing (fromList, get)
 import CssTranslation exposing (css)
 import Extra exposing (takeFirstText) 
 import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html.Attributes exposing (attribute, class, id, value)
 import Html.Events exposing (on, targetValue)
 import Json.Decode
 import Model
@@ -46,7 +46,7 @@ buildDropDownQuestion question =
         -- ## End of Decoder
     in
         div [ class css.question ]
-            [ Html.label [ class "question-text", attribute "for" question.title ] [ text question.title ]
+            [ label [ class "question-text", attribute "for" question.title ] [ text question.title ]
             , div [ class "question-description" ] [ text (takeFirstText question.text) ]
             , select
                 [ class css.select

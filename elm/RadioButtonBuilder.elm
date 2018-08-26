@@ -1,16 +1,16 @@
 module RadioButtonBuilder exposing (buildRadioButtonQuestion)
 
-import Array
+import Array exposing (fromList, get)
 import CssTranslation exposing (css)
 import Extra exposing (takeFirstText)
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html exposing (div, fieldset, input, label, legend, text)
+import Html.Attributes exposing (attribute, class, for, id, name, style, type_, value)
 import Html.Events exposing (on, targetValue)
 import Json.Decode
 import Model
 
 
-buildRadioButtonQuestion : Model.QuestionRecord -> Html (List Model.QuestionAction)
+buildRadioButtonQuestion : Model.QuestionRecord -> Html.Html (List Model.QuestionAction)
 buildRadioButtonQuestion question =
     div [ class css.question ]
         [ div [ class css.radiobuttons, attribute "data-uuid" (String.fromInt question.uuid) ] []
@@ -23,7 +23,7 @@ buildRadioButtonQuestion question =
         ]
 
 
-listOfRadioButtons : Model.QuestionRecord -> List (Html (List Model.QuestionAction))
+listOfRadioButtons : Model.QuestionRecord -> List (Html.Html (List Model.QuestionAction))
 listOfRadioButtons question =
     let
         -- ## Decoder below:
@@ -69,7 +69,7 @@ listOfRadioButtons question =
                     []
                 , label
                     [ for optionName
-                    , style  "padding-left" "5px"
+                    , style "padding-left" "5px"
                     ]
                     [ text optionName ]
                 ]

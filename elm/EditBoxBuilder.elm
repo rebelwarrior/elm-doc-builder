@@ -3,12 +3,12 @@ module EditBoxBuilder exposing (buildContentParrographs, buildEditBoxQuestion, b
 import CssTranslation exposing (css)
 import Extra exposing (takeFirstText)
 import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html.Attributes exposing (attribute, class, spellcheck, style, type_)
 import Html.Events exposing (onClick)
 import Model
 
 
-buildEditBoxQuestion : Model.QuestionRecord -> Html (List Model.QuestionAction)
+buildEditBoxQuestion : Model.QuestionRecord -> Html.Html (List Model.QuestionAction)
 buildEditBoxQuestion question =
     div [ attribute "data-uuid" (String.fromInt question.uuid) ]
         [ div [ class "question-text" ] [ text question.title ]
@@ -32,16 +32,14 @@ buildEditBoxQuestion question =
 
 
 -- this Function Can be extracted to Extra
-
-
-buildContentParrographs : List String -> List (Html msg)
+buildContentParrographs : List String -> List (Html.Html msg)
 buildContentParrographs stringList =
     stringList
         |> List.concatMap (String.split "\n")
         |> List.map (\x -> p [] [ text x ])
 
 
-buildAreaText : List String -> List (Html msg)
+buildAreaText : List String -> List (Html.Html msg)
 buildAreaText stringList =
     stringList
         |> List.intersperse "\n"
@@ -49,14 +47,14 @@ buildAreaText stringList =
         |> (\s -> [ text s ])
 
 
-buildTextAreaQuestion : Bool -> Model.QuestionRecord -> Html (List Model.QuestionAction)
+buildTextAreaQuestion : Bool -> Model.QuestionRecord -> Html.Html (List Model.QuestionAction)
 buildTextAreaQuestion areaOnly question =
     let
         onInputFn : String -> List Model.QuestionAction
         onInputFn string =
             List.singleton (Model.ReplaceAllOptions question.uuid [ string ])
 
-        boxOrArea : Bool -> Html (List Model.QuestionAction)
+        boxOrArea : Bool -> Html.Html (List Model.QuestionAction)
         boxOrArea areaOnlyBool =
             if areaOnlyBool then
                 div [] []

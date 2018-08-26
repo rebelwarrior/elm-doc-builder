@@ -1,9 +1,9 @@
 module CheckBoxBuilder exposing (buildCheckboxQuestion)
 
-import Array
+import Array exposing (fromList, get)
 import CssTranslation exposing (css)
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html exposing (div, input, label, li, text, ul)
+import Html.Attributes exposing (attribute, class, id, type_)
 import Html.Events exposing (onCheck)
 import Model
 
@@ -16,7 +16,7 @@ import Model
 -- Quesiton Text Items List (Allowing you to list options checked below for example.)
 
 
-listQuestionTextItems : List String -> List (Html msg)
+listQuestionTextItems : List String -> List (Html.Html msg)
 listQuestionTextItems questionText =
     let
         listItem string =
@@ -75,14 +75,12 @@ appendNumberToBeginningOfString string maybeInt =
             beginningOfString
 
         Just i ->
-            beginningOfString ++ (String.fromInt i)
+            beginningOfString ++ String.fromInt i
 
 
 
 -- Had to change the output
-
-
-buildCheckboxQuestion : Model.QuestionRecord -> Html (List Model.QuestionAction)
+buildCheckboxQuestion : Model.QuestionRecord -> Html.Html (List Model.QuestionAction)
 buildCheckboxQuestion question =
     let
         description : String
@@ -102,7 +100,7 @@ buildCheckboxQuestion question =
         ]
 
 
-listOfCheckBoxes : Model.QuestionRecord -> List (Html (List Model.QuestionAction))
+listOfCheckBoxes : Model.QuestionRecord -> List (Html.Html (List Model.QuestionAction))
 listOfCheckBoxes question =
     let
         --The bottom two functions can be extracted if the top on is on a let block for the second
@@ -132,11 +130,11 @@ listOfCheckBoxes question =
                 optionNameToTwoActions optionName
                     |> List.drop 1
 
-        checkBoxItem : String -> Html (List Model.QuestionAction)
+        checkBoxItem : String -> Html.Html (List Model.QuestionAction)
         checkBoxItem optionName =
             let
-                ordinal : Maybe Int
                 -- requires question.options pure.
+                ordinal : Maybe Int
                 ordinal =
                     optionNameToOrdinal optionName question.options
 

@@ -1,4 +1,4 @@
-module JsonImporter exposing (..)
+module JsonImporter exposing (decodeImportQuestionInPage, decodeImportQuestionsJson) 
 
 
 import Json.Decode as D
@@ -6,8 +6,8 @@ import Json.Decode.Pipeline exposing (..)
 import Model
 
 
-importQuestionsJson : String -> Result String (List Model.QuestionRecord)
-importQuestionsJson jsonString =
+decodeImportQuestionsJson : String -> Result String (List Model.QuestionRecord)
+decodeImportQuestionsJson jsonString =
   let
     result : Result D.Error (List Model.QuestionRecord)
     result = D.decodeString decodeListOfQuestions jsonString
@@ -16,8 +16,8 @@ importQuestionsJson jsonString =
       Err m -> Err (D.errorToString m) 
       Ok r  -> Ok r
 
-importQuestionInPage : String -> Result String (List Int)
-importQuestionInPage jsonString =
+decodeImportQuestionInPage : String -> Result String (List Int)
+decodeImportQuestionInPage jsonString =
   let 
     result : Result D.Error (List Int)
     result = D.decodeString (D.list D.int) jsonString
@@ -44,11 +44,10 @@ decodeAction =
           _                  -> D.fail ("Unable to decode action: " ++ action)
 
   in 
-    -- decode toQuestionAction 
     D.succeed toQuestionAction
-      |> required "action" D.string 
-      |> optional "number" D.int 0
-      |> optional "below" D.int 0 
+      |> required "action"  D.string 
+      |> optional "number"  D.int 0
+      |> optional "below"   D.int 0 
       |> optional "message" D.string ""
       |> optional "options" (D.list D.string) []
       |> resolve 
@@ -71,16 +70,13 @@ questionTypeDecoder string =
       _               -> D.fail ("Value " ++ string ++ "Is not a question type.") -- Should this be Model.Error?
 
 
--- decodeQuestion : Decoder Model.QuestionRecord 
--- decodeQuestion =
---   decode Model.QuestionRecord
 questionDecoder : D.Decoder Model.QuestionRecord 
 questionDecoder =
   D.succeed Model.QuestionRecord
-    |> required "uid" D.int
+    |> required "uid"   D.int
     |> required "title" D.string 
     |> optional "text" (D.list D.string) []
-    |> required "type"  (D.andThen questionTypeDecoder D.string)
+    |> required "type" (D.andThen questionTypeDecoder D.string)
     |> optional "saveAction" (D.andThen decodeSaveAction D.string) Model.None
     |> optional "options" (D.list D.string) []
     |> optional "actions" (D.list (D.list (decodeAction))) [] 

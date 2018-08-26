@@ -2,7 +2,7 @@ module MarkdownBuilder exposing (buildMarkdown)
 
 import Markdown exposing (..)
 import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html.Attributes exposing (class)
 import Model
 
 import CssTranslation exposing (css)

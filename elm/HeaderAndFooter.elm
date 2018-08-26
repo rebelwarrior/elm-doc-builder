@@ -1,7 +1,7 @@
 module HeaderAndFooter exposing (..)
 
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html exposing (a, footer, h1, header, text)
+import Html.Attributes exposing (href)
 
 
 viewHeader title =

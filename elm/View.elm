@@ -99,7 +99,7 @@ viewQuestionItem question =
             buildEditBoxQuestion question
 
         Model.TextBox ->
-            buildTextAreaQuestion False question
+            buildTextAreaQuestion False question -- should this be True?
 
         -- Model.TextArea ->
         --     buildTextAreaQuestion True question

@@ -14,44 +14,40 @@ import Model
 buildTable : Model.QuestionRecord -> Html.Html msg
 buildTable question =
     let
-        title =
-            question.title
-
-        description =
-            Extra.takeFirstText question.text
-
-        lableText =
-            [ "" ]
-
-        placeholderText =
-            [ "" ]
-
-        initialState =
-            question.options
-
+        title = question.title
+        description = Extra.takeFirstText question.text
+        lableText = [ "" ]
+        placeholderText = [ "" ]
+        initialState = question.options
         columnsNumber =
-            Extra.takeSecondTextAsInt question.text |> Result.withDefault 3
+            Extra.takeSecondTextAsInt question.text 
+            |> Result.withDefault 3
     in
-    div []
-        [ h3 [] [ Html.text question.title ]
-        , div [] [ Html.text description ]
-        , div
-            [ class "container"
-            , style "display" "grid" 
-            , style "grid-template-columns" (String.repeat columnsNumber "150px ")
-            , style "background-color" "#eee" 
-            , style "grid-gap" "15px" 
-            , style "margin" "5px" 
-            , style "padding-bottom" "10px" 
-            , style "padding-top" "10px" 
+        -- div []
+        Html.form [ class "form-inline" ]
+            [ h3 [] [ Html.text question.title ]
+            , div [] [ Html.text description ]
+            , div
+                [ class "container"
+                , style "display" "grid"
+                , style "grid-template-columns" (String.repeat columnsNumber "150px ")
+                , style "background-color" "#eee"
+                , style "grid-gap" "15px"
+                , style "margin" "5px"
+                , style "padding-bottom" "10px"
+                , style "padding-top" "10px"
+                ]
+                (List.indexedMap itemBuilder question.options)
             ]
-            (List.indexedMap itemBuilder question.options)
-        ]
 
 
 itemBuilder : Int -> String -> Html.Html msg
 itemBuilder i content =
-    div [ class ("item--" ++ (String.fromInt i)) ] [ inputBoxBuilder content ]
+    div
+        [ class ("item--" ++ String.fromInt i)
+        , title content -- title is tooltip
+        ]
+        [ inputBoxBuilder content ]
 
 
 
@@ -63,28 +59,27 @@ itemBuilder i content =
 inputBoxBuilder : String -> Html.Html msg
 inputBoxBuilder content =
     let
-        labelText =
-            content
-
-        placeholderText =
-            content
+        labelText = content
+        placeholderText = content
     in
-    Html.form
-        [ class "form-inline" ]
-        [ label
-            [ for labelText
-            , class "sr-only"
+        -- Html.form
+        --     [ class "form-inline" ]
+        div []
+            [ label
+                [ for labelText
+                , class "sr-only"
+                ]
+                [ Html.text labelText ]
+            , input
+                [ type_ "text"
+                , class "form-control table-form"
+                , style "width" "-moz-available"
+                , style "width" "-webkit-fill-available"
+                , id labelText
+                , placeholder placeholderText
+                ]
+                []
             ]
-            [ Html.text labelText ]
-        , input
-            [ type_ "text"
-            , class "form-control"
-            -- , style [ ( "width", "150px" ) ]
-            , id labelText
-            , placeholder placeholderText
-            ]
-            []
-        ]
 
 
 

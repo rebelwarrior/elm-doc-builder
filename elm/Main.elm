@@ -6,7 +6,7 @@ import Update
 import View
 
 
-import JsonImporter exposing (importQuestionInPage, importQuestionsJson)
+import JsonImporter exposing (decodeImportQuestionInPage, decodeImportQuestionsJson)
 
 
 type alias Flag =
@@ -49,11 +49,11 @@ processFlags flag =
     let
         listOfQuestionsOnPageResult : Result String (List Int)
         listOfQuestionsOnPageResult =
-            importQuestionInPage flag.l
+            decodeImportQuestionInPage flag.l
 
         listOfQuestionsResult : Result String (List Model.QuestionRecord)
         listOfQuestionsResult =
-            importQuestionsJson flag.q
+            decodeImportQuestionsJson flag.q
 
         captureError : Result String a -> List String
         captureError result =

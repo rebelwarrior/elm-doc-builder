@@ -1,21 +1,21 @@
 module AlertBuilder exposing (buildAlerts, viewAlertMsg)
 
 import CssTranslation exposing (css)
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html exposing (button, div, span, text)
+import Html.Attributes exposing (attribute, class)
 import Html.Events exposing (onClick)
 import Model
 
 
-buildAlerts : List String -> Html (List Model.QuestionAction)
+buildAlerts : List String -> Html.Html (List Model.QuestionAction)
 buildAlerts messageList =
     viewAlertMsg messageList
 
 
-viewAlertMsg : List String -> Html (List Model.QuestionAction)
+viewAlertMsg : List String -> Html.Html (List Model.QuestionAction)
 viewAlertMsg messageList =
     let
-        displayMessage : String -> Html (List Model.QuestionAction)
+        displayMessage : String -> Html.Html (List Model.QuestionAction)
         displayMessage message =
             div
                 [ class css.flash

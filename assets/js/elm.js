@@ -6742,17 +6742,13 @@ var author$project$Extra$takeSecondTextAsInt = function (listOfStrings) {
 				elm$core$List$head(
 					A2(elm$core$List$drop, 1, listOfStrings)))));
 };
-var elm$html$Html$form = _VirtualDom_node('form');
 var elm$html$Html$Attributes$placeholder = elm$html$Html$Attributes$stringProperty('placeholder');
 var author$project$TableBuilder$inputBoxBuilder = function (content) {
 	var placeholderText = content;
 	var labelText = content;
 	return A2(
-		elm$html$Html$form,
-		_List_fromArray(
-			[
-				elm$html$Html$Attributes$class('form-inline')
-			]),
+		elm$html$Html$div,
+		_List_Nil,
 		_List_fromArray(
 			[
 				A2(
@@ -6771,7 +6767,9 @@ var author$project$TableBuilder$inputBoxBuilder = function (content) {
 				_List_fromArray(
 					[
 						elm$html$Html$Attributes$type_('text'),
-						elm$html$Html$Attributes$class('form-control'),
+						elm$html$Html$Attributes$class('form-control table-form'),
+						A2(elm$html$Html$Attributes$style, 'width', '-webkit-fill-available'),
+						A2(elm$html$Html$Attributes$style, 'width', '-moz-available'),
 						elm$html$Html$Attributes$id(labelText),
 						elm$html$Html$Attributes$placeholder(placeholderText)
 					]),
@@ -6814,6 +6812,7 @@ var elm$core$String$repeat = F2(
 	function (n, chunk) {
 		return A3(elm$core$String$repeatHelp, n, chunk, '');
 	});
+var elm$html$Html$form = _VirtualDom_node('form');
 var elm$html$Html$h3 = _VirtualDom_node('h3');
 var author$project$TableBuilder$buildTable = function (question) {
 	var title = question.bh;
@@ -6828,8 +6827,11 @@ var author$project$TableBuilder$buildTable = function (question) {
 		3,
 		author$project$Extra$takeSecondTextAsInt(question.ap));
 	return A2(
-		elm$html$Html$div,
-		_List_Nil,
+		elm$html$Html$form,
+		_List_fromArray(
+			[
+				elm$html$Html$Attributes$class('form-inline')
+			]),
 		_List_fromArray(
 			[
 				A2(
