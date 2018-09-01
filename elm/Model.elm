@@ -68,7 +68,7 @@ initialModel : Model
 initialModel = 
   { alertMessages = [ "Error: bad robot", "Error: Really Bad Robot"]
   , buildDoc = False 
-  , questionsInPage = [1000, 200, 110, 113, 100]  -- this will have to be expanded w/ the concept of pages later
+  , questionsInPage = [1000, 200, 110, 113, 100, 999]  -- this will have to be expanded w/ the concept of pages later
   , questionList =
     [ --QuestionRecord 1001 "TextInput Q" ["go on living", "iZombie ok", "fine"] TextInput None [] [] []
     --, QuestionRecord 1002 "EditBox" [] EditBox NoSave ["This \n are \n monsters."] [] []
@@ -109,6 +109,7 @@ initialModel =
     , QuestionRecord 113 "Radio" ["desc"] RadioButton None ["banana", "milkshake", "float"] [[AddQuestion 102],[NoAction], [RmQuestion 102]] [] 
     , QuestionRecord 114 "Check" ["desc"] CheckBox None ["banana1", "milkshake1", "float1"] [[AddQuestion 102],[RmQuestion 102]] [] 
     , QuestionRecord 200 "Print Button" ["click to print"] Button SaveAll [] [[Print]] []
+    , QuestionRecord 999 "Alert" [] Image None [] [] [] 
     ]
 
   }

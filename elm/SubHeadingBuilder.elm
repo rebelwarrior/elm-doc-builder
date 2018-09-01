@@ -26,8 +26,8 @@ buildSubHeading question =
                 "5" ->
                     h5
 
-                "6" ->
-                    h6
+                "hr" ->
+                    hr 
 
                 _ ->
                     h2

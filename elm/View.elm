@@ -1,9 +1,8 @@
 module View exposing (view)
 
 -- import TextInputBuilder exposing (buildTextInputQuestion)
--- import TextInputBuilder exposing (buildTextInputQuestion)
 
-import AlertBuilder exposing (buildAlerts)
+import AlertBuilder exposing (buildAlerts, buildAlertQuestion)
 import ButtonBuilder exposing (buildButton)
 import CheckBoxBuilder exposing (buildCheckboxQuestion)
 import CssTranslation exposing (css)
@@ -56,13 +55,9 @@ viewFooter =
         ]
 
 
-
--- This allows proper sorting of the questions.
--- Write a blog about this.
-
-
 viewQuestionList : List Model.QuestionRecord -> List Int -> Bool -> List (Html (List Model.QuestionAction))
 viewQuestionList allQuestions questions buildDoc =
+    -- This allows proper sorting of the questions.
     let
         partialQuestions : List Model.QuestionRecord
         partialQuestions =
@@ -103,8 +98,10 @@ viewQuestionItem question =
         Model.TextBox ->
             buildTextAreaQuestion False question
 
-        -- Model.TextArea -> -- should this be True?
-        --     buildTextAreaQuestion True question
+        Model.TextArea ->
+            -- should this be True?
+            buildTextAreaQuestion True question
+
         Model.RadioButton ->
             buildRadioButtonQuestion question
 
@@ -122,15 +119,10 @@ viewQuestionItem question =
         Model.SimpleText ->
             div [] [ text (String.concat question.text) ]
 
-
         -- Model.Image ->
         --     buildImage question
         _ ->
-            div [] [ text "No QuestionType Error" ]
-
-
-
--- This should be an alert
+            buildAlertQuestion "Error: Unable to understand QuestionType." question.uuid
 
 
 viewSaveQuestion : Model.QuestionRecord -> Html (List Model.QuestionAction)
