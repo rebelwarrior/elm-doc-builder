@@ -43,8 +43,7 @@ The list of questions is an array containing a "QuestionRecord" object. Each "Qu
 
 List of available __types__: 
 ```javascript
-[ "checkbox", "radio", "dropdown", "markdown", "editbox", "textbox", 
-"textinput", "textarea", "table", "button", "subheading", "notaquestion" ]
+[ "checkbox", "radio", "dropdown", "markdown", "editbox", "textinput", "textarea", "table", "button", "subheading", "notaquestion" ]
 ```
 
 Each question may have "Action" objects:
@@ -109,7 +108,13 @@ TODO:
 6. [_] Implement NotAQuestion (also rename) 
 7. [_] Verify Accessibility tags
 8. [_] Add validation 
-9. [_] Use consistent css for question title and question description 
+9. [_] Use consistent css for question title and question description
+10. [_] Fix css function and clean that up 
+11. [_] Create the "Combo Box" autocomplete from list question 
+
+Bugs:
+1. [_] Width of table elements (items) too long.
+2. [_] Textbox does not match size of Edit box.
 
 Key Technical problems that had to be overcome:
 1. Use a List of Msg rather than just one in 

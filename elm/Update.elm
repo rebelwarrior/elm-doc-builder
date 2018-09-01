@@ -2,23 +2,29 @@ module Update exposing (update, updateWithFlags)
 
 import Model
 
+
 pullChildrenQuestions : Int -> Model.Model -> List Int 
 pullChildrenQuestions qID model =
   model.questionList 
     |> List.filter (\q -> q.uuid == qID )
     |> List.concatMap .childQuestions
 
-insertIntoListAfter :Int -> Int ->  List Int -> List Int -> List Int 
-insertIntoListAfter num afterNum newList list = 
-  case list of
-    h :: t ->
-        if h == afterNum then 
-          insertIntoListAfter num afterNum (afterNum :: (num :: newList)) t
-        else 
-          insertIntoListAfter num afterNum (h :: newList) t
-    [] -> 
-        newList 
 
+insertIntoListAfter : Int -> Int ->  List Int -> List Int 
+insertIntoListAfter number afterNumber fullList = 
+  let 
+    insertIntoListAfterR : Int -> Int ->  List Int -> List Int -> List Int 
+    insertIntoListAfterR num afterNum newList list = 
+      case list of
+        h :: t ->
+            if h == afterNum then 
+              insertIntoListAfterR num afterNum (afterNum :: (num :: newList)) t
+            else 
+              insertIntoListAfterR num afterNum (h :: newList) t
+        [] -> 
+            newList 
+  in 
+    insertIntoListAfterR number afterNumber [] fullList 
 
 updateWithAction : Model.QuestionAction -> Model.Model -> Model.Model 
 updateWithAction msg model =
@@ -35,7 +41,7 @@ updateWithAction msg model =
           { model | questionsInPage = 
                 model.questionsInPage
                   |> List.reverse 
-                  |> insertIntoListAfter qID belowQuestionID []
+                  |> insertIntoListAfter qID belowQuestionID
           }
       Model.RmQuestion qID ->  
         let 
@@ -89,20 +95,20 @@ updateWithAction msg model =
       _ -> 
         { model | alertMessages =  
           model.alertMessages
-          |> (::) ("Error: Unable to Process, Unknown Type." )  
+          |> (::) ("Unable to Process Action, Unknown Acction Type." )  
         }
         
 
 update : List Model.QuestionAction -> Model.Model -> Model.Model 
 update msgs model =
     let 
-      -- This function will apply actions successively to the model 
       updateModel : Model.QuestionAction -> Model.Model -> Model.Model
-      updateModel m acc =
-        updateWithAction m acc 
+      updateModel message m =
+        updateWithAction message m
     in 
+      -- This function will apply actions successively to the model 
       msgs
-        |> List.foldl (\m acc -> updateModel m acc) model
+        |> List.foldl (\msg m -> updateModel msg m) model
 
 
 updateWithFlags : List Model.QuestionAction -> Model.Model -> (Model.Model, Cmd (List Model.QuestionAction))
@@ -110,22 +116,22 @@ updateWithFlags msgs model =
     ((update msgs model), Cmd.none) 
 
 
-
--- ##  Old Method:
---     Model.AddQuestion qID position ->
---       {model | pages =
---         ( model.pages |> List.map
---           (\p ->
---             if p.pageNumber == model.currentPage then
---               { p | questionsInPage =
---                 p.questionsInPage
---                   |> splitAt position
---                   |> List.intersperse (Array.fromList [qID])
---                   |> List.foldl Array.append Array.empty
---               }
---             else
---               p
---           )
---         )
-
+{-
+##  Old Method:
+    Model.AddQuestion qID position ->
+      {model | pages =
+        ( model.pages |> List.map
+          (\p ->
+            if p.pageNumber == model.currentPage then
+              { p | questionsInPage =
+                p.questionsInPage
+                  |> splitAt position
+                  |> List.intersperse (Array.fromList [qID])
+                  |> List.foldl Array.append Array.empty
+              }
+            else
+              p
+          )
+        )
+-}
 

@@ -64,7 +64,8 @@ inputBoxBuilder content =
     in
         -- Html.form
         --     [ class "form-inline" ]
-        div []
+        div [ 
+            ]
             [ label
                 [ for labelText
                 , class "sr-only"
@@ -73,7 +74,6 @@ inputBoxBuilder content =
             , input
                 [ type_ "text"
                 , class "form-control table-form"
-                , style "width" "-moz-available"
                 , style "width" "-webkit-fill-available"
                 , id labelText
                 , placeholder placeholderText

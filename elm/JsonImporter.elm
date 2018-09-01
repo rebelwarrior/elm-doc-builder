@@ -5,6 +5,10 @@ import Json.Decode as D
 import Json.Decode.Pipeline exposing (..)
 import Model
 
+{-
+   Don't run Elm Format on this this file.
+   Readability is impacted. 
+-}
 
 decodeImportQuestionsJson : String -> Result String (List Model.QuestionRecord)
 decodeImportQuestionsJson jsonString =
@@ -14,7 +18,7 @@ decodeImportQuestionsJson jsonString =
   in 
     case result of 
       Err m -> Err (D.errorToString m) 
-      Ok r  -> Ok r
+      Ok  r -> Ok r
 
 decodeImportQuestionInPage : String -> Result String (List Int)
 decodeImportQuestionInPage jsonString =
@@ -24,7 +28,7 @@ decodeImportQuestionInPage jsonString =
   in 
     case result of 
       Err m -> Err (D.errorToString m) 
-      Ok r  -> Ok r 
+      Ok  r -> Ok r 
 
 decodeListOfQuestions : D.Decoder (List Model.QuestionRecord)
 decodeListOfQuestions =
@@ -54,20 +58,20 @@ decodeAction =
 
 questionTypeDecoder : String -> D.Decoder Model.QuestionType 
 questionTypeDecoder string =
-    case (String.toLower string) of
-      "checkbox"      -> D.succeed Model.CheckBox
-      "radio"         -> D.succeed Model.RadioButton
-      "dropdown"      -> D.succeed Model.DropDown
-      "markdown"      -> D.succeed Model.Markdown 
-      "editbox"       -> D.succeed Model.EditBox
-      "textbox"       -> D.succeed Model.TextBox
-      "textinput"     -> D.succeed Model.TextInput
-      "textarea"      -> D.succeed Model.TextArea
-      "table"         -> D.succeed Model.Table
-      "button"        -> D.succeed Model.Button
-      "subheading"    -> D.succeed Model.SubHeading
-      "notaquestion"  -> D.succeed Model.NotAQuestion
-      _               -> D.fail ("Value " ++ string ++ "Is not a question type.") -- Should this be Model.Error?
+  case (String.toLower string) of
+    "checkbox"      -> D.succeed Model.CheckBox
+    "radio"         -> D.succeed Model.RadioButton
+    "dropdown"      -> D.succeed Model.DropDown
+    "markdown"      -> D.succeed Model.Markdown 
+    "editbox"       -> D.succeed Model.EditBox
+    "textbox"       -> D.fail ("Textbox can't imported, you may want editbox.")
+    "textinput"     -> D.succeed Model.TextInput
+    "textarea"      -> D.succeed Model.TextArea
+    "table"         -> D.succeed Model.Table
+    "button"        -> D.succeed Model.Button
+    "subheading"    -> D.succeed Model.SubHeading
+    "notaquestion"  -> D.succeed Model.NotAQuestion
+    _               -> D.fail ("Unable to decode question type: " ++ string)
 
 
 questionDecoder : D.Decoder Model.QuestionRecord 
@@ -85,12 +89,14 @@ questionDecoder =
 
 decodeSaveAction : String -> D.Decoder Model.SaveAction
 decodeSaveAction string =
-    case (String.toLower string) of 
+  case (String.toLower string) of 
     "savetext" -> D.succeed Model.SaveText
     "saveall"  -> D.succeed Model.SaveAll
-    _          -> D.succeed Model.None
+    "none"     -> D.succeed Model.None
+    ""         -> D.succeed Model.None
+    _          -> D.fail ("Unable to decode save action: " ++ string)
 
-
+{- 
 sampleQuestionJson : String
 sampleQuestionJson =
   """
@@ -127,3 +133,4 @@ sampleQuestionJson =
     , "childQuestions" : []
     }
   """
+-}

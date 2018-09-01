@@ -7,14 +7,14 @@ import Html.Attributes exposing (attribute, class, id, type_)
 import Html.Events exposing (onCheck)
 import Model
 
-
--- I *do* need two sets of actions one for on click and one for off click.
--- But I don't need to check this I just need to assume I have these many.
--- I just assume I have two of each (pairs). In order.
--- So option 2 starts at 3 and 4 is the check off
--- This function is in case you want to use an action to append or drop elements from the
--- Quesiton Text Items List (Allowing you to list options checked below for example.)
-
+{-
+    I *do* need two sets of actions one for on click and one for off click.
+    But I don't need to check this I just need to assume I have these many.
+    I just assume I have two of each (pairs). In order.
+    So option 2 starts at 3 and 4 is the check off
+    This function is in case you want to use an action to append or drop elements from the
+    Quesiton Text Items List (Allowing you to list options checked below for example.)
+-}
 
 listQuestionTextItems : List String -> List (Html.Html msg)
 listQuestionTextItems questionText =

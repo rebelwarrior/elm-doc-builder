@@ -1,7 +1,5 @@
 module Extra exposing (..)
 
-
-
 {- For Taking the Description of Questions -}
 takeFirstText : List String -> String
 takeFirstText listOfStrings =
@@ -52,3 +50,5 @@ appendNumberToBeginningOfString string charsLimit maybeString =
 
         Just a ->
             beginningOfString ++ a
+
+

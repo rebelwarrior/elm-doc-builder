@@ -1,13 +1,13 @@
 module MarkdownBuilder exposing (buildMarkdown)
 
-import Markdown exposing (..)
+import CssTranslation exposing (css)
 import Html exposing (..)
 import Html.Attributes exposing (class)
+import Markdown exposing (toHtmlWith)
 import Model
 
-import CssTranslation exposing (css)
 
-options : Markdown.Options 
+options : Markdown.Options
 options =
     { githubFlavored = Just { tables = True, breaks = False }
     , defaultHighlighting = Nothing
@@ -15,8 +15,9 @@ options =
     , smartypants = False
     }
 
+
 buildMarkdown : Model.QuestionRecord -> Html msg
-buildMarkdown question = 
-    question.text 
+buildMarkdown question =
+    question.text
         |> List.foldr (++) ""
-        |> Markdown.toHtmlWith options [class css.markdown_class ] 
+        |> Markdown.toHtmlWith options [ class css.markdown_class ]

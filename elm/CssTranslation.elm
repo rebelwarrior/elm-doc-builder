@@ -1,14 +1,16 @@
 module CssTranslation exposing (css)
 
--- This is just a place to put all the css classes. 
-css = 
+-- This is just a place to put all the css classes.
+
+
+css =
     { flash = "alert alert-danger alert-dismissible fade show"
     , close = "close"
-    , button_outline = "" 
+    , button_outline = "btn btn-outline-secondary"
     , grid = "container"
     , subgrid = "row justify-content-start"
     , main_section = "question-section"
-    , subgrid_sidebar = "col-sm" 
+    , subgrid_sidebar = "col-sm"
     , large_column = "col-lg"
     , form = "col-lg-auto"
     , form_check = "form-check"
@@ -22,11 +24,11 @@ css =
     , custom_radio_input = "custom-control-input"
     , radio_label = "custom-control-label"
     , list_radio = "radio"
-    , fieldset_inputs = "" 
+    , fieldset_inputs = ""
     , unstiled_list = ""
     , legend = ""
     , header = "header"
-    , form_control = "" --Editbox
+    , form_control = "" --Editbox this needs a fix
     , done_button = "Done"
     , edit_button = "Edit"
     , edit_button_class = "btn btn-link btn-sm edit"
