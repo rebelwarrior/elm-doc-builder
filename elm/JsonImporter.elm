@@ -70,7 +70,7 @@ questionTypeDecoder string =
     "table"         -> D.succeed Model.Table
     "button"        -> D.succeed Model.Button
     "subheading"    -> D.succeed Model.SubHeading
-    "notaquestion"  -> D.succeed Model.NotAQuestion
+    "simpletext"  -> D.succeed Model.SimpleText
     _               -> D.fail ("Unable to decode question type: " ++ string)
 
 

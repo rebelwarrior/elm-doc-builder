@@ -14,6 +14,7 @@ import Html.Attributes exposing (..)
 import MarkdownBuilder exposing (buildMarkdown)
 import Model
 import RadioButtonBuilder exposing (buildRadioButtonQuestion)
+import SubHeadingBuilder exposing (buildSubHeading)
 import TableBuilder exposing (buildTable)
 
 
@@ -35,15 +36,16 @@ viewH1 : Html msg
 viewH1 =
     div [ class css.header ]
         [ h1 [] [] ]
-            -- [ a
-            --     [ href "#/"
-            --     , style [ ( "color", "inherit" ), ( "text-decoration", "inherit" ) ]
-            --     ]
-            --     [ text "Elm Document Builder" ]
 
-            -- -- Title can be later set w/ a pages object
-            -- ]
 
+
+-- [ a
+--     [ href "#/"
+--     , style [ ( "color", "inherit" ), ( "text-decoration", "inherit" ) ]
+--     ]
+--     [ text "Elm Document Builder" ]
+-- -- Title can be later set w/ a pages object
+-- ]
 
 
 viewFooter : Html msg
@@ -99,9 +101,9 @@ viewQuestionItem question =
             buildEditBoxQuestion question
 
         Model.TextBox ->
-            buildTextAreaQuestion False question -- should this be True?
+            buildTextAreaQuestion False question
 
-        -- Model.TextArea ->
+        -- Model.TextArea -> -- should this be True?
         --     buildTextAreaQuestion True question
         Model.RadioButton ->
             buildRadioButtonQuestion question
@@ -115,14 +117,12 @@ viewQuestionItem question =
             buildButton question
 
         Model.SubHeading ->
-            h2 [ class "sub-heading" ] [ text question.title ]
+            buildSubHeading question
 
-        -- This should be called Heading and options should allow you to set the H level 1-6.
-        -- Model.NotAQuestion ->
-        --     div []
-        --         [ div [] [ text "" ]
-        --         , div [] [ text "" ]
-        --         ]
+        Model.SimpleText ->
+            div [] [ text (String.concat question.text) ]
+
+
         -- Model.Image ->
         --     buildImage question
         _ ->

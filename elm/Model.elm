@@ -14,7 +14,7 @@ type QuestionType
     | SubHeading
     | TextInput  
     | Image
-    | NotAQuestion -- Rename to SimpleText
+    | SimpleText 
     | ErrorType
 
 type alias QuestionRecord =

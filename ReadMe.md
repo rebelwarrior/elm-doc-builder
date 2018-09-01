@@ -43,7 +43,7 @@ The list of questions is an array containing a "QuestionRecord" object. Each "Qu
 
 List of available __types__: 
 ```javascript
-[ "checkbox", "radio", "dropdown", "markdown", "editbox", "textinput", "textarea", "table", "button", "subheading", "notaquestion" ]
+[ "checkbox", "radio", "dropdown", "markdown", "editbox", "textinput", "textarea", "table", "button", "subheading", "simpletext" ]
 ```
 
 Each question may have "Action" objects:
