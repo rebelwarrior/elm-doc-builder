@@ -8,11 +8,12 @@ import Json.Encode
 
 
 main =
-    Browser.sandbox { init = "", update = update, view = view }
+    Browser.sandbox { init = initialModel, update = update, view = view }
 
 
-view model =
-    div
+initialModel =
+    { alerts =
+        div
             [ class "alert alert-danger alert-dismissible fade show"
             , attribute "role" "alert"
             ]
@@ -35,16 +36,41 @@ view model =
                 , attribute "type" "button"
                 , attribute "data-dismiss" "alert"
                 , attribute "aria-label" "Close"
-
-                -- , onClick [ onClickAction ]
+                , onClick False
                 ]
                 [ span [ attribute "aria-hidden" "true" ] [ text "×" ]
                 ]
             ]
+    }
+
+
+view model =
+    model.alerts
 
 
 update msg model =
-    model ++ Debug.toString msg
+    case msg of
+        True ->
+            initialModel
+
+        False ->
+            { model
+                | alerts =
+                    div []
+                        [ div 
+                            [ Html.Attributes.property "innerHTML" (Json.Encode.string "Test <em>em</em> here.") ]
+                            []
+                        , button
+                        [ class "close"
+                        , attribute "type" "button"
+                        , attribute "data-dismiss" "alert"
+                        , attribute "aria-label" "Close"
+                        , onClick True
+                        ]
+                        [ span [ attribute "aria-hidden" "true" ] [ text "×" ]
+                        ]
+                        ]
+            }
 
 
 
@@ -52,4 +78,3 @@ update msg model =
 --     crossorigin="anonymous">
 -- <link rel="stylesheet" href="assets/css/animation.css">
 -- div [ (Html.Attributes.property "innerHTML" (Json.Encode.string "Test <em>em</em> here.")) ] []
-
