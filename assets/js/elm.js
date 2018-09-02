@@ -5059,7 +5059,7 @@ var author$project$JsonImporter$decodeSaveAction = function (string) {
 		case '':
 			return elm$json$Json$Decode$succeed(3);
 		default:
-			return elm$json$Json$Decode$fail('Don\'t understand ' + (string + 'as a save action.'));
+			return elm$json$Json$Decode$fail('Unable to decode save action: ' + string);
 	}
 };
 var author$project$Model$Button = 7;
@@ -5067,8 +5067,8 @@ var author$project$Model$CheckBox = 2;
 var author$project$Model$DropDown = 0;
 var author$project$Model$EditBox = 4;
 var author$project$Model$Markdown = 1;
-var author$project$Model$NotAQuestion = 12;
 var author$project$Model$RadioButton = 3;
+var author$project$Model$SimpleText = 12;
 var author$project$Model$SubHeading = 9;
 var author$project$Model$Table = 8;
 var author$project$Model$TextArea = 6;
@@ -5098,10 +5098,10 @@ var author$project$JsonImporter$questionTypeDecoder = function (string) {
 			return elm$json$Json$Decode$succeed(7);
 		case 'subheading':
 			return elm$json$Json$Decode$succeed(9);
-		case 'notaquestion':
+		case 'simpletext':
 			return elm$json$Json$Decode$succeed(12);
 		default:
-			return elm$json$Json$Decode$fail('Don\'t understand ' + (string + 'as a question type.'));
+			return elm$json$Json$Decode$fail('Unable to decode question type: ' + string);
 	}
 };
 var author$project$Model$QuestionRecord = F8(
@@ -5273,41 +5273,45 @@ var author$project$Main$subscriptions = function (model) {
 	return elm$core$Platform$Sub$none;
 };
 var author$project$Model$TextBox = 5;
-var author$project$Update$insertIntoListAfter = F4(
-	function (num, afterNum, newList, list) {
-		insertIntoListAfter:
-		while (true) {
-			if (list.b) {
-				var h = list.a;
-				var t = list.b;
-				if (_Utils_eq(h, afterNum)) {
-					var $temp$num = num,
-						$temp$afterNum = afterNum,
-						$temp$newList = A2(
-						elm$core$List$cons,
-						afterNum,
-						A2(elm$core$List$cons, num, newList)),
-						$temp$list = t;
-					num = $temp$num;
-					afterNum = $temp$afterNum;
-					newList = $temp$newList;
-					list = $temp$list;
-					continue insertIntoListAfter;
-				} else {
-					var $temp$num = num,
-						$temp$afterNum = afterNum,
-						$temp$newList = A2(elm$core$List$cons, h, newList),
-						$temp$list = t;
-					num = $temp$num;
-					afterNum = $temp$afterNum;
-					newList = $temp$newList;
-					list = $temp$list;
-					continue insertIntoListAfter;
+var author$project$Update$insertIntoListAfter = F3(
+	function (number, afterNumber, fullList) {
+		var insertIntoListAfterR = F4(
+			function (num, afterNum, newList, list) {
+				insertIntoListAfterR:
+				while (true) {
+					if (list.b) {
+						var h = list.a;
+						var t = list.b;
+						if (_Utils_eq(h, afterNum)) {
+							var $temp$num = num,
+								$temp$afterNum = afterNum,
+								$temp$newList = A2(
+								elm$core$List$cons,
+								afterNum,
+								A2(elm$core$List$cons, num, newList)),
+								$temp$list = t;
+							num = $temp$num;
+							afterNum = $temp$afterNum;
+							newList = $temp$newList;
+							list = $temp$list;
+							continue insertIntoListAfterR;
+						} else {
+							var $temp$num = num,
+								$temp$afterNum = afterNum,
+								$temp$newList = A2(elm$core$List$cons, h, newList),
+								$temp$list = t;
+							num = $temp$num;
+							afterNum = $temp$afterNum;
+							newList = $temp$newList;
+							list = $temp$list;
+							continue insertIntoListAfterR;
+						}
+					} else {
+						return newList;
+					}
 				}
-			} else {
-				return newList;
-			}
-		}
+			});
+		return A4(insertIntoListAfterR, number, afterNumber, _List_Nil, fullList);
 	});
 var elm$core$List$map = F2(
 	function (f, xs) {
@@ -5407,11 +5411,10 @@ var author$project$Update$updateWithAction = F2(
 				return _Utils_update(
 					model,
 					{
-						aj: A4(
+						aj: A3(
 							author$project$Update$insertIntoListAfter,
 							qID,
 							belowQuestionID,
-							_List_Nil,
 							elm$core$List$reverse(model.aj))
 					});
 			case 2:
@@ -5500,21 +5503,21 @@ var author$project$Update$updateWithAction = F2(
 				return _Utils_update(
 					model,
 					{
-						R: A2(elm$core$List$cons, 'Error: Unable to Process, Unknown Type.', model.R)
+						R: A2(elm$core$List$cons, 'Unable to Process Action, Unknown Acction Type.', model.R)
 					});
 		}
 	});
 var author$project$Update$update = F2(
 	function (msgs, model) {
 		var updateModel = F2(
-			function (m, acc) {
-				return A2(author$project$Update$updateWithAction, m, acc);
+			function (message, m) {
+				return A2(author$project$Update$updateWithAction, message, m);
 			});
 		return A3(
 			elm$core$List$foldl,
 			F2(
-				function (m, acc) {
-					return A2(updateModel, m, acc);
+				function (msg, m) {
+					return A2(updateModel, msg, m);
 				}),
 			model,
 			msgs);
@@ -5525,10 +5528,7 @@ var author$project$Update$updateWithFlags = F2(
 			A2(author$project$Update$update, msgs, model),
 			elm$core$Platform$Cmd$none);
 	});
-var author$project$CssTranslation$css = {aw: '', az: 'close', aA: 'custom-control custom-radio', aB: 'custom-control-input', aD: 'Done', aE: 'Edit', aF: 'btn btn-link btn-sm edit', aI: '', aK: 'alert alert-danger alert-dismissible fade show', aL: 'col-lg-auto', aM: 'form-check', aN: 'form-check-input', aO: 'form-check-label', aP: '', aR: 'container', aS: 'header', aW: 'col-lg', aX: '', aY: 'radio', aZ: 'question-section', a_: 'text-md-left', a3: 'form-group', a6: 'custom-control-label', a7: '', bb: 'form-control', bd: 'row justify-content-start', be: 'col-sm', bi: ''};
-var author$project$Model$ClearAlert = function (a) {
-	return {$: 7, a: a};
-};
+var author$project$CssTranslation$css = {aw: 'btn btn-outline-secondary', az: 'close', aA: 'custom-control custom-radio', aB: 'custom-control-input', aD: 'Done', aE: 'Edit', aF: 'btn btn-link btn-sm edit', aI: '', aK: 'alert alert-danger alert-dismissible fade show', aL: 'col-lg-auto', aM: 'form-check', aN: 'form-check-input', aO: 'form-check-label', aP: '', aR: 'container', aS: 'header', aW: 'col-lg', aX: '', aY: 'radio', aZ: 'question-section', a_: 'text-md-left', a3: 'form-group', a6: 'custom-control-label', a7: '', bb: 'form-control', bd: 'row justify-content-start', be: 'col-sm', bi: ''};
 var elm$json$Json$Decode$map = _Json_map1;
 var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 	switch (handler.$) {
@@ -5581,8 +5581,8 @@ var elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		elm$json$Json$Decode$succeed(msg));
 };
-var author$project$AlertBuilder$viewAlertMsg = function (messageList) {
-	var displayMessage = function (message) {
+var author$project$AlertBuilder$displayMessage = F2(
+	function (message, onClickAction) {
 		return A2(
 			elm$html$Html$div,
 			_List_fromArray(
@@ -5602,8 +5602,8 @@ var author$project$AlertBuilder$viewAlertMsg = function (messageList) {
 							A2(elm$html$Html$Attributes$attribute, 'data-dismiss', 'alert'),
 							A2(elm$html$Html$Attributes$attribute, 'aria-label', 'Close'),
 							elm$html$Html$Events$onClick(
-							elm$core$List$singleton(
-								author$project$Model$ClearAlert(message)))
+							_List_fromArray(
+								[onClickAction]))
 						]),
 					_List_fromArray(
 						[
@@ -5619,14 +5619,26 @@ var author$project$AlertBuilder$viewAlertMsg = function (messageList) {
 								]))
 						]))
 				]));
-	};
+	});
+var author$project$Model$ClearAlert = function (a) {
+	return {$: 7, a: a};
+};
+var author$project$AlertBuilder$viewAlertMsg = function (messageList) {
 	return A2(
 		elm$html$Html$div,
 		_List_fromArray(
 			[
 				elm$html$Html$Attributes$class('alerts')
 			]),
-		A2(elm$core$List$map, displayMessage, messageList));
+		A2(
+			elm$core$List$map,
+			function (msg) {
+				return A2(
+					author$project$AlertBuilder$displayMessage,
+					msg,
+					author$project$Model$ClearAlert(msg));
+			},
+			messageList));
 };
 var author$project$AlertBuilder$buildAlerts = function (messageList) {
 	return author$project$AlertBuilder$viewAlertMsg(messageList);
@@ -5666,6 +5678,13 @@ var author$project$View$viewH1 = A2(
 		[
 			A2(elm$html$Html$h1, _List_Nil, _List_Nil)
 		]));
+var author$project$AlertBuilder$buildAlertQuestion = F2(
+	function (message, questionID) {
+		return A2(
+			author$project$AlertBuilder$displayMessage,
+			message,
+			author$project$Model$RmQuestion(questionID));
+	});
 var author$project$Extra$firstListOfNestedList = function (list) {
 	if (list.b) {
 		var hd = list.a;
@@ -5685,7 +5704,7 @@ var author$project$ButtonBuilder$buildButton = function (question) {
 				elm$html$Html$button,
 				_List_fromArray(
 					[
-						elm$html$Html$Attributes$class('btn btn-outline-secondary'),
+						elm$html$Html$Attributes$class(author$project$CssTranslation$css.aw),
 						elm$html$Html$Events$onClick(
 						author$project$Extra$firstListOfNestedList(question.as))
 					]),
@@ -6672,6 +6691,45 @@ var author$project$RadioButtonBuilder$buildRadioButtonQuestion = function (quest
 					]))
 			]));
 };
+var elm$core$String$concat = function (strings) {
+	return A2(elm$core$String$join, '', strings);
+};
+var elm$html$Html$h2 = _VirtualDom_node('h2');
+var elm$html$Html$h3 = _VirtualDom_node('h3');
+var elm$html$Html$h4 = _VirtualDom_node('h4');
+var elm$html$Html$h5 = _VirtualDom_node('h5');
+var elm$html$Html$hr = _VirtualDom_node('hr');
+var author$project$SubHeadingBuilder$buildSubHeading = function (question) {
+	var subheadingFunction = function () {
+		var _n0 = elm$core$String$concat(question.ap);
+		switch (_n0) {
+			case '1':
+				return elm$html$Html$h1;
+			case '2':
+				return elm$html$Html$h2;
+			case '3':
+				return elm$html$Html$h3;
+			case '4':
+				return elm$html$Html$h4;
+			case '5':
+				return elm$html$Html$h5;
+			case 'hr':
+				return elm$html$Html$hr;
+			default:
+				return elm$html$Html$h2;
+		}
+	}();
+	return A2(
+		subheadingFunction,
+		_List_fromArray(
+			[
+				elm$html$Html$Attributes$class('sub-heading')
+			]),
+		_List_fromArray(
+			[
+				elm$html$Html$text(question.bh)
+			]));
+};
 var elm$core$Result$fromMaybe = F2(
 	function (err, maybe) {
 		if (!maybe.$) {
@@ -6756,7 +6814,6 @@ var elm$core$String$repeat = F2(
 		return A3(elm$core$String$repeatHelp, n, chunk, '');
 	});
 var elm$html$Html$form = _VirtualDom_node('form');
-var elm$html$Html$h3 = _VirtualDom_node('h3');
 var author$project$TableBuilder$buildTable = function (question) {
 	var title = question.bh;
 	var placeholderText = _List_fromArray(
@@ -6810,7 +6867,6 @@ var author$project$TableBuilder$buildTable = function (question) {
 				A2(elm$core$List$indexedMap, author$project$TableBuilder$itemBuilder, question.L))
 			]));
 };
-var elm$html$Html$h2 = _VirtualDom_node('h2');
 var author$project$View$viewQuestionItem = function (question) {
 	var _n0 = question.a5;
 	switch (_n0) {
@@ -6824,6 +6880,8 @@ var author$project$View$viewQuestionItem = function (question) {
 			return author$project$EditBoxBuilder$buildEditBoxQuestion(question);
 		case 5:
 			return A2(author$project$EditBoxBuilder$buildTextAreaQuestion, false, question);
+		case 6:
+			return A2(author$project$EditBoxBuilder$buildTextAreaQuestion, true, question);
 		case 3:
 			return author$project$RadioButtonBuilder$buildRadioButtonQuestion(question);
 		case 8:
@@ -6831,27 +6889,20 @@ var author$project$View$viewQuestionItem = function (question) {
 		case 7:
 			return author$project$ButtonBuilder$buildButton(question);
 		case 9:
-			return A2(
-				elm$html$Html$h2,
-				_List_fromArray(
-					[
-						elm$html$Html$Attributes$class('sub-heading')
-					]),
-				_List_fromArray(
-					[
-						elm$html$Html$text(question.bh)
-					]));
-		default:
+			return author$project$SubHeadingBuilder$buildSubHeading(question);
+		case 12:
 			return A2(
 				elm$html$Html$div,
 				_List_Nil,
 				_List_fromArray(
 					[
-						elm$html$Html$text('No QuestionType Error')
+						elm$html$Html$text(
+						elm$core$String$concat(question.ap))
 					]));
+		default:
+			return A2(author$project$AlertBuilder$buildAlertQuestion, 'Error: Unable to understand QuestionType.', question.bl);
 	}
 };
-var elm$html$Html$h4 = _VirtualDom_node('h4');
 var author$project$View$viewSaveQuestion = function (question) {
 	var _n0 = question.ba;
 	switch (_n0) {
