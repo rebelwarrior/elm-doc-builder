@@ -105,7 +105,7 @@ TODO:
 1. [_] Fully implement jekyll theme pattern (low)
 2. [_] Fix fade easing of alerts without using js. (if possible)
 3. [_] Implement Heading (reimplementation of Subheading)
-6. [_] Implement NotAQuestion (also rename) 
+6. [x] Implement NotAQuestion (also rename) 
 7. [_] Verify Accessibility tags
 8. [_] Add validation 
 9. [_] Use consistent css for question title and question description

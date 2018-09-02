@@ -12,7 +12,6 @@ buildAlerts messageList =
     viewAlertMsg messageList
 
 
-
 buildAlertQuestion : String -> Int -> Html.Html (List Model.QuestionAction)
 buildAlertQuestion message questionID =
     -- Need to add options like: warning, info etc.
@@ -24,6 +23,7 @@ viewAlertMsg messageList =
     messageList
         |> List.map (\msg -> displayMessage msg (Model.ClearAlert msg))
         |> div [ class "alerts" ]
+
 
 displayMessage : String -> Model.QuestionAction -> Html.Html (List Model.QuestionAction)
 displayMessage message onClickAction =

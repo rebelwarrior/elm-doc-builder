@@ -122,6 +122,7 @@ viewQuestionItem question =
         -- Model.Image ->
         --     buildImage question
         _ ->
+            -- This would work better if I could use Action AddAlert 
             buildAlertQuestion "Error: Unable to understand QuestionType." question.uuid
 
 

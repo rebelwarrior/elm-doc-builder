@@ -2,7 +2,7 @@ module DropDownBuilder exposing (buildDropDownQuestion)
 
 import Array exposing (fromList, get)
 import CssTranslation exposing (css)
-import Extra exposing (takeFirstText) 
+import Extra exposing (takeFirstText)
 import Html exposing (..)
 import Html.Attributes exposing (attribute, class, id, value)
 import Html.Events exposing (on, targetValue)
@@ -16,12 +16,12 @@ buildDropDownQuestion question =
         -- ## Decoder below:
         actionList : String -> List Model.QuestionAction
         actionList value =
-            (valueOrder value question.options)
-                |> List.concatMap (orderToActions question.actions) 
+            valueOrder value question.options
+                |> List.concatMap (orderToActions question.actions)
 
         valueToActions : String -> Json.Decode.Decoder (List Model.QuestionAction)
         valueToActions value =
-            value 
+            value
                 |> actionList
                 |> Json.Decode.succeed
 
@@ -45,16 +45,16 @@ buildDropDownQuestion question =
 
         -- ## End of Decoder
     in
-        div [ class css.question ]
-            [ label [ class "question-text", attribute "for" question.title ] [ text question.title ]
-            , div [ class "question-description" ] [ text (takeFirstText question.text) ]
-            , select
-                [ class css.select
-                , id question.title
-                , on "change" valueDecoder
-                ]
-                (List.indexedMap dropDownOption question.options) -- , div [] [text (toString question.actions)] --Debug
+    div [ class css.question ]
+        [ label [ class "question-text", attribute "for" question.title ] [ text question.title ]
+        , div [ class "question-description" ] [ text (takeFirstText question.text) ]
+        , select
+            [ class css.select
+            , id question.title
+            , on "change" valueDecoder
             ]
+            (List.indexedMap dropDownOption question.options)
+        ]
 
 
 dropDownOption : Int -> String -> Html msg
@@ -63,12 +63,10 @@ dropDownOption index optionName =
         abbreviatedName : String
         abbreviatedName =
             optionName
-                |> String.left 10 
-                
-
+                |> String.left 10
     in
-        option
-            [ value abbreviatedName
-            , id ("data-" ++ abbreviatedName)
-            ]
-            [ text optionName ]
+    option
+        [ value abbreviatedName
+        , id ("data-" ++ abbreviatedName)
+        ]
+        [ text optionName ]
