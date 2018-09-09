@@ -45,7 +45,16 @@ initialModel =
 
 
 view model =
-    model.alerts
+    withStyle model.alerts
+
+
+withStyle html =
+    div []
+        [ node "style"
+            [ type_ "text/css" ]
+            [ text "@import url(https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css)" ]
+        , html
+        ]
 
 
 update msg model =
@@ -57,18 +66,18 @@ update msg model =
             { model
                 | alerts =
                     div []
-                        [ div 
+                        [ div
                             [ Html.Attributes.property "innerHTML" (Json.Encode.string "Test <em>em</em> here.") ]
                             []
                         , button
-                        [ class "close"
-                        , attribute "type" "button"
-                        , attribute "data-dismiss" "alert"
-                        , attribute "aria-label" "Close"
-                        , onClick True
-                        ]
-                        [ span [ attribute "aria-hidden" "true" ] [ text "×" ]
-                        ]
+                            [ class "close"
+                            , attribute "type" "button"
+                            , attribute "data-dismiss" "alert"
+                            , attribute "aria-label" "Close"
+                            , onClick True
+                            ]
+                            [ span [ attribute "aria-hidden" "true" ] [ text "×" ]
+                            ]
                         ]
             }
 
