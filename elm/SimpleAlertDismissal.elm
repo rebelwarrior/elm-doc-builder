@@ -70,13 +70,13 @@ update msg model =
                             [ Html.Attributes.property "innerHTML" (Json.Encode.string "Test <em>em</em> here.") ]
                             []
                         , button
-                            [ class "close"
+                            [ class "open"
                             , attribute "type" "button"
                             , attribute "data-dismiss" "alert"
-                            , attribute "aria-label" "Close"
+                            , attribute "aria-label" "Open"
                             , onClick True
                             ]
-                            [ span [ attribute "aria-hidden" "true" ] [ text "×" ]
+                            [ span [ attribute "aria-hidden" "true" ] [ text "+" ]
                             ]
                         ]
             }

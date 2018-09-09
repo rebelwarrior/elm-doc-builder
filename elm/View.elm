@@ -56,7 +56,7 @@ viewFooter =
 
 
 viewQuestionList : List Model.QuestionRecord -> List Int -> Bool -> List (Html (List Model.QuestionAction))
-viewQuestionList allQuestions questions buildDoc =
+viewQuestionList allQuestions questions saveDoc =
     -- This allows proper sorting of the questions.
     let
         partialQuestions : List Model.QuestionRecord
@@ -67,12 +67,12 @@ viewQuestionList allQuestions questions buildDoc =
     questions
         |> List.map (\i -> List.filter (\q -> q.uuid == i) partialQuestions)
         |> List.concat
-        |> List.map (viewQuestionItemFunction buildDoc)
+        |> List.map (viewQuestionItemFunction saveDoc)
 
 
 viewQuestionItemFunction : Bool -> Model.QuestionRecord -> Html (List Model.QuestionAction)
-viewQuestionItemFunction buildDoc =
-    case buildDoc of
+viewQuestionItemFunction saveDoc =
+    case saveDoc of
         False ->
             viewQuestionItem
 
