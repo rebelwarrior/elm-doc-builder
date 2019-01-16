@@ -86,8 +86,8 @@ inputBoxBuilder content =
             [ Html.text labelText ]
         , input
             [ type_ "text"
-            , class "form-control table-form"
-            , style "width" "-webkit-fill-available -moz-available"
+            , class "form-control table-form css-grid-table"
+            , style "width" "-webkit-fill-available"
             , id labelText
             , placeholder placeholderText
             ]
@@ -98,3 +98,5 @@ inputBoxBuilder content =
 
 -- Needs function for onInput
 -- Not sure I need a form here at all.
+-- style "width" "-webkit-fill-available"
+-- style "width" "-moz-available"
