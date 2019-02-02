@@ -2,7 +2,8 @@ module View exposing (view)
 
 -- import TextInputBuilder exposing (buildTextInputQuestion)
 
-import AlertBuilder exposing (buildAlerts, buildAlertQuestion)
+import AlertBuilder exposing (buildAlertQuestion, buildAlerts)
+import Array exposing (fromList, set, toList)
 import ButtonBuilder exposing (buildButton)
 import CheckBoxBuilder exposing (buildCheckboxQuestion)
 import CssTranslation exposing (css)
@@ -56,18 +57,32 @@ viewFooter =
 
 
 viewQuestionList : List Model.QuestionRecord -> List Int -> Bool -> List (Html (List Model.QuestionAction))
-viewQuestionList allQuestions questions buildDoc =
+viewQuestionList allQuestions questions buildDocBool =
     -- This allows proper sorting of the questions.
     let
         partialQuestions : List Model.QuestionRecord
         partialQuestions =
             allQuestions
                 |> List.filter (\q -> List.member q.uuid questions)
+
+        -- Problem with changing this is it will take only the head, this can hide errors. Reverting
+        fetchQuestionByID : Int -> List Model.QuestionRecord -> Maybe Model.QuestionRecord
+        fetchQuestionByID id questionList =
+            List.filter (\q -> q.uuid == id) questionList
+                |> (\list ->
+                        case list of
+                            [] ->
+                                Nothing
+
+                            h :: t ->
+                                Just h
+                   )
     in
     questions
+        -- |> List.filterMap (\i -> fetchQuestionByID i partialQuestions)
         |> List.map (\i -> List.filter (\q -> q.uuid == i) partialQuestions)
         |> List.concat
-        |> List.map (viewQuestionItemFunction buildDoc)
+        |> List.map (viewQuestionItemFunction buildDocBool)
 
 
 viewQuestionItemFunction : Bool -> Model.QuestionRecord -> Html (List Model.QuestionAction)
@@ -122,7 +137,7 @@ viewQuestionItem question =
         -- Model.Image ->
         --     buildImage question
         _ ->
-            -- This would work better if I could use Action AddAlert 
+            -- This would work better if I could use Action AddAlert
             buildAlertQuestion "Error: Unable to understand QuestionType." question.uuid
 
 

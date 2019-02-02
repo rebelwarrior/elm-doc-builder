@@ -68,7 +68,7 @@ initialModel : Model
 initialModel = 
   { alertMessages = [ "Error: bad robot", "Error: Really Bad Robot"]
   , buildDoc = False 
-  , questionsInPage = [1000, 200, 110, 113, 100, 999]  -- this will have to be expanded w/ the concept of pages later
+  , questionsInPage = [200, 110, 113, 100, 999, 1000]  -- this will have to be expanded w/ the concept of pages later
   , questionList =
     [ --QuestionRecord 1001 "TextInput Q" ["go on living", "iZombie ok", "fine"] TextInput None [] [] []
     --, QuestionRecord 1002 "EditBox" [] EditBox NoSave ["This \n are \n monsters."] [] []
