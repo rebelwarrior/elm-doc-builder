@@ -66,17 +66,17 @@ viewQuestionList allQuestions questions buildDocBool =
                 |> List.filter (\q -> List.member q.uuid questions)
 
         -- Problem with changing this is it will take only the head, this can hide errors. Reverting
-        fetchQuestionByID : Int -> List Model.QuestionRecord -> Maybe Model.QuestionRecord
-        fetchQuestionByID id questionList =
-            List.filter (\q -> q.uuid == id) questionList
-                |> (\list ->
-                        case list of
-                            [] ->
-                                Nothing
+        -- fetchQuestionByID : Int -> List Model.QuestionRecord -> Maybe Model.QuestionRecord
+        -- fetchQuestionByID id questionList =
+        --     List.filter (\q -> q.uuid == id) questionList
+        --         |> (\list ->
+        --                 case list of
+        --                     [] ->
+        --                         Nothing
 
-                            h :: t ->
-                                Just h
-                   )
+        --                     h :: t ->
+        --                         Just h
+        --            )
     in
     questions
         -- |> List.filterMap (\i -> fetchQuestionByID i partialQuestions)
