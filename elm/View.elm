@@ -59,27 +59,15 @@ viewFooter =
 viewQuestionList : List Model.QuestionRecord -> List Int -> Bool -> List (Html (List Model.QuestionAction))
 viewQuestionList allQuestions questions buildDocBool =
     -- This allows proper sorting of the questions.
+    -- Avoided doing a filterMap due to wanting to display multiple questions with the same number.
     let
         partialQuestions : List Model.QuestionRecord
         partialQuestions =
             allQuestions
                 |> List.filter (\q -> List.member q.uuid questions)
 
-        -- Problem with changing this is it will take only the head, this can hide errors. Reverting
-        -- fetchQuestionByID : Int -> List Model.QuestionRecord -> Maybe Model.QuestionRecord
-        -- fetchQuestionByID id questionList =
-        --     List.filter (\q -> q.uuid == id) questionList
-        --         |> (\list ->
-        --                 case list of
-        --                     [] ->
-        --                         Nothing
-
-        --                     h :: t ->
-        --                         Just h
-        --            )
     in
     questions
-        -- |> List.filterMap (\i -> fetchQuestionByID i partialQuestions)
         |> List.map (\i -> List.filter (\q -> q.uuid == i) partialQuestions)
         |> List.concat
         |> List.map (viewQuestionItemFunction buildDocBool)
