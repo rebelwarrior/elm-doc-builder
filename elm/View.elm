@@ -3,7 +3,6 @@ module View exposing (view)
 -- import TextInputBuilder exposing (buildTextInputQuestion)
 
 import AlertBuilder exposing (buildAlertQuestion, buildAlerts)
-import Array exposing (fromList, set, toList)
 import ButtonBuilder exposing (buildButton)
 import CheckBoxBuilder exposing (buildCheckboxQuestion)
 import CssTranslation exposing (css)
@@ -60,11 +59,13 @@ viewQuestionList : List Model.QuestionRecord -> List Int -> Bool -> List (Html (
 viewQuestionList allQuestions questions buildDocBool =
     -- This allows proper sorting of the questions.
     -- Avoided doing a filterMap due to wanting to display multiple questions with the same number.
+    -- Avoided using Dict because it's slower!
     let
         partialQuestions : List Model.QuestionRecord
         partialQuestions =
             allQuestions
                 |> List.filter (\q -> List.member q.uuid questions)
+
 
     in
     questions
