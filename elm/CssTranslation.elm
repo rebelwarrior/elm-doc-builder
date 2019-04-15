@@ -2,7 +2,6 @@ module CssTranslation exposing (css)
 
 -- This is just a place to put all the css classes.
 
-
 css =
     { flash = "alert alert-danger alert-dismissible fade show"
     , close = "close"

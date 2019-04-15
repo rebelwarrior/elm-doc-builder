@@ -2,7 +2,7 @@ module AlertBuilder exposing (buildAlerts, buildAlertQuestion)
 
 import CssTranslation exposing (css)
 import Html exposing (button, div, span, text)
-import Html.Attributes exposing (attribute, class)
+import Html.Attributes exposing (attribute, class, type_)
 import Html.Events exposing (onClick)
 import Model
 
@@ -29,7 +29,8 @@ displayMessage : String -> Model.QuestionAction -> Html.Html (List Model.Questio
 displayMessage message onClickAction =
     div
         [ class css.flash
-        , attribute "role" "alert"
+        , attribute "role" "alert" --Possibly switch to "status" for a11y
+        , attribute "aria-live" "polite"
         ]
         [ text message
         , button

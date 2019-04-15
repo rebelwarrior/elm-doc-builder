@@ -50,7 +50,9 @@ viewH1 =
 viewFooter : Html msg
 viewFooter =
     footer []
-        [ a [ href "https://www.github.com/rebelwarrior" ]
+        [ a [ href "https://www.github.com/rebelwarrior" 
+            , attribute "aria-label" "David Acevedo's GitHub page."
+            ]
             [ text "Elm Document Builder coded with 💚 by rebelwarrior" ]
         ]
 
