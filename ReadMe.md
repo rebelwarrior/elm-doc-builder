@@ -6,6 +6,8 @@ As a User I want to easily modify a set of questions on a questionnaire that the
 Approach to solve it:
 Make the program's logic and content be on a separate JSON file that the Elm program slurps at startup and can interpret, including its logic. 
 
+I did a [talk](https://youtu.be/WPoZqs7KPy8) about it at the [Elm DC meet up](https://www.meetup.com/Elm-DC/) in 2018. Quick note the reason the sorting doesn't use dictionaries and instead uses filter is that a dictionary would eliminate duplicate entries (which is not a feature at this time) and my tests revealed very little performance benefit to my surprise. 
+
 ## Demo
 The Elm program compiles to JavaScript which can then be hosted with Jekyll on GitHub directly.
 
@@ -100,7 +102,7 @@ Also where is the readme for the quesitons?
 TODO:
 1. [x] Implement Save Actions to Document Creation 
 1. [x] Simplify DropDown based on Checkboxex/Radio button pattern 
-4. [_] Implement Table (important)
+4. [x] Implement Table (important)
 5. [_] Refactor Text Input maybe add validations?
 1. [_] Fully implement jekyll theme pattern (low)
 2. [_] Fix fade easing of alerts without using js. (if possible)
@@ -111,6 +113,7 @@ TODO:
 9. [_] Use consistent css for question title and question description
 10. [_] Fix css function and clean that up 
 11. [_] Create the "Combo Box" autocomplete from list question 
+12. [_] Create sister application that creates the question json from a series of options.
 
 Bugs:
 1. [_] Width of table elements (items) too long.
@@ -118,5 +121,6 @@ Bugs:
 
 Key Technical problems that had to be overcome:
 1. Use a List of Msg rather than just one in 
-2. How to sort the list of questions in order (View)
+2. How to sort the list of questions in order (View) (see quick note above on why not dictionaries)
 3. How to build a Dropdown
+
