@@ -18,6 +18,7 @@ type alias Flag =
 
 -- Beginner Program does not load json from _data
 -- Also change index.html
+-- {-
 main : Program () Model.Model (List Model.QuestionAction)
 main =
     Browser.sandbox
@@ -25,18 +26,19 @@ main =
         , update = Update.update
         , view = View.view
         }
+-- -}
 
 
-
--- main : Program Flag Model.Model (List Model.QuestionAction)
--- main =
---     Browser.element
---         { init = processFlags
---         , view = View.view
---         , update = Update.updateWithFlags
---         , subscriptions = subscriptions
---         }
-
+{- 
+main : Program Flag Model.Model (List Model.QuestionAction)
+main =
+    Browser.element
+        { init = processFlags
+        , view = View.view
+        , update = Update.updateWithFlags
+        , subscriptions = subscriptions
+        }
+-- -}
 
 subscriptions : Model.Model -> Sub msg
 subscriptions model =

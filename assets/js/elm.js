@@ -5588,7 +5588,8 @@ var author$project$AlertBuilder$displayMessage = F2(
 			_List_fromArray(
 				[
 					elm$html$Html$Attributes$class(author$project$CssTranslation$css.aK),
-					A2(elm$html$Html$Attributes$attribute, 'role', 'alert')
+					A2(elm$html$Html$Attributes$attribute, 'role', 'alert'),
+					A2(elm$html$Html$Attributes$attribute, 'aria-live', 'polite')
 				]),
 			_List_fromArray(
 				[
@@ -5660,7 +5661,8 @@ var author$project$View$viewFooter = A2(
 			elm$html$Html$a,
 			_List_fromArray(
 				[
-					elm$html$Html$Attributes$href('https://www.github.com/rebelwarrior')
+					elm$html$Html$Attributes$href('https://www.github.com/rebelwarrior'),
+					A2(elm$html$Html$Attributes$attribute, 'aria-label', 'David Acevedo\'s GitHub page.')
 				]),
 			_List_fromArray(
 				[
@@ -5694,6 +5696,7 @@ var author$project$Extra$firstListOfNestedList = function (list) {
 		return _List_Nil;
 	}
 };
+var elm$html$Html$Attributes$type_ = elm$html$Html$Attributes$stringProperty('type');
 var author$project$ButtonBuilder$buildButton = function (question) {
 	return A2(
 		elm$html$Html$div,
@@ -5705,6 +5708,7 @@ var author$project$ButtonBuilder$buildButton = function (question) {
 				_List_fromArray(
 					[
 						elm$html$Html$Attributes$class(author$project$CssTranslation$css.aw),
+						elm$html$Html$Attributes$type_('button'),
 						elm$html$Html$Events$onClick(
 						author$project$Extra$firstListOfNestedList(question.as))
 					]),
@@ -6015,7 +6019,6 @@ var elm$html$Html$input = _VirtualDom_node('input');
 var elm$html$Html$label = _VirtualDom_node('label');
 var elm$html$Html$li = _VirtualDom_node('li');
 var elm$html$Html$Attributes$id = elm$html$Html$Attributes$stringProperty('id');
-var elm$html$Html$Attributes$type_ = elm$html$Html$Attributes$stringProperty('type');
 var elm$json$Json$Decode$at = F2(
 	function (fields, decoder) {
 		return A3(elm$core$List$foldr, elm$json$Json$Decode$field, decoder, fields);
@@ -6940,7 +6943,7 @@ var author$project$View$viewQuestionItemFunction = function (buildDoc) {
 	}
 };
 var author$project$View$viewQuestionList = F3(
-	function (allQuestions, questions, buildDoc) {
+	function (allQuestions, questions, buildDocBool) {
 		var partialQuestions = A2(
 			elm$core$List$filter,
 			function (q) {
@@ -6949,7 +6952,7 @@ var author$project$View$viewQuestionList = F3(
 			allQuestions);
 		return A2(
 			elm$core$List$map,
-			author$project$View$viewQuestionItemFunction(buildDoc),
+			author$project$View$viewQuestionItemFunction(buildDocBool),
 			elm$core$List$concat(
 				A2(
 					elm$core$List$map,
