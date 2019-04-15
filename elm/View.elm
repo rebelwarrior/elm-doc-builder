@@ -58,8 +58,7 @@ viewFooter =
 viewQuestionList : List Model.QuestionRecord -> List Int -> Bool -> List (Html (List Model.QuestionAction))
 viewQuestionList allQuestions questions buildDocBool =
     -- This allows proper sorting of the questions.
-    -- Avoided doing a filterMap with a case of to get the quesiotn 
-    -- due to wanting to display multiple questions with the same number.
+    -- Avoided doing a filterMap due to wanting to display multiple questions with the same number.
     -- Avoided using Dict because it's slower!
     let
         partialQuestions : List Model.QuestionRecord
