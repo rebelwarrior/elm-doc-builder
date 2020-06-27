@@ -12,8 +12,8 @@ import Html.Attributes exposing (..)
 buildConstant question =
     let 
         num = 
-            String.fromInt question.data 
-            |> formatDecimal question.decimalPlaces
+            String.fromInt question.data.integer
+            |> formatDecimal question.data.decimalPlaces
         
     in 
     div [] 

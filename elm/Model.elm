@@ -60,6 +60,13 @@ type alias Model =
     , questionList : List QuestionRecord
     }
 
+-- For Numerical Question Types. 
+type alias QuestionData =
+    { integer : Int 
+    , float : Float 
+    , decimalPlaces : Int 
+    , currencySymbol : String 
+    }
 
 model : Model
 model = initialModel

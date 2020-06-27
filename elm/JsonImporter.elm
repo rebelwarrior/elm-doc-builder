@@ -37,6 +37,8 @@ decodeListOfQuestions =
 decodeAction : D.Decoder Model.QuestionAction  
 decodeAction = 
   let 
+    -- This acts like a Constructor so D.succeed feeds the pipes into this constructor.
+    -- This is also the use of RESOLVE. Note resolve needs succeed and fail.
     toQuestionAction : String -> Int -> Int -> String -> List String -> D.Decoder Model.QuestionAction
     toQuestionAction action number belowNumber msg listOptions =
       case (String.toLower action) of 
@@ -70,7 +72,7 @@ questionTypeDecoder string =
     "table"         -> D.succeed Model.Table
     "button"        -> D.succeed Model.Button
     "subheading"    -> D.succeed Model.SubHeading
-    "simpletext"  -> D.succeed Model.SimpleText
+    "simpletext"    -> D.succeed Model.SimpleText
     _               -> D.fail ("Unable to decode question type: " ++ string)
 
 
@@ -81,10 +83,21 @@ questionDecoder =
     |> required "title" D.string 
     |> optional "text" (D.list D.string) []
     |> required "type" (D.andThen questionTypeDecoder D.string)
+    -- |> optional "data" (D.andThen questionDataDecoder D.string) Model.QuestionData.NoData 
     |> optional "saveAction" (D.andThen decodeSaveAction D.string) Model.None
     |> optional "options" (D.list D.string) []
     |> optional "actions" (D.list (D.list (decodeAction))) [] 
     |> optional "childQuestions" (D.list D.int) []
+
+{-
+questionDataDecoder : String -> D.Decoder Model.QuestionData 
+questionDataDecoder string =
+  D.succeed Model.QuestionData 
+    |> optional "integer" D.int 0
+    |> optional "float" D.float 0.0
+    |> optional "decimalplaces" D.int 0 
+    |> optional "currencysymbol" D.string "" 
+-}
 
 
 decodeSaveAction : String -> D.Decoder Model.SaveAction
